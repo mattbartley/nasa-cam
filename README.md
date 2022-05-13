@@ -1,12 +1,13 @@
 <div id="top"></div>
 
-<!-- PROJECT SHIELDS -->
+<!-- PROJECT SHIELDS 
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+-->
 
 <!-- ABOUT THE PROJECT -->
 
@@ -70,7 +71,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [stars-url]: https://github.com/mattbartley/nasa-cam/stargazers
 [issues-shield]: https://img.shields.io/github/issues/mattbartley/nasa-cam.svg?style=for-the-badge
 [issues-url]: https://github.com/mattbartley/nasa-cam/issues
-[license-shield]: https://img.shields.io/github/license/mattbartley/nasa-cam.svg?style=for-the-badge
 
 <!--
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
