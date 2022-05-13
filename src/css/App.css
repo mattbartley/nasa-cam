@@ -1,0 +1,83 @@
+.App {
+  text-align: center;
+}
+.photo__gallery__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  margin: 2rem 0;
+}
+
+.gallery__image {
+  margin: 0;
+  width: 100%;
+  height: 20vh;
+  object-fit: cover;
+  --notchSize: 15px;
+  clip-path: polygon(
+    0% var(--notchSize),
+    var(--notchSize) 0%,
+    calc(100%) 0%,
+    100% var(--notchSize),
+    100% calc(100% - var(--notchSize)),
+    calc(100% - var(--notchSize)) 100%,
+    var(--notchSize) 100%,
+    0% calc(100%)
+  );
+}
+
+.dropdown__btn {
+  background-color: #2298b6;
+  color: white;
+  padding: 16px 0px;
+  font-size: 16px;
+  border: none;
+  min-width: 250px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropdown__content {
+  border: none;
+  padding: 10px 0px;
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  z-index: 1;
+  text-align: center;
+  margin: 0 auto;
+  width: max-content;
+}
+
+.dropdown__content button {
+  cursor: pointer;
+  color: black;
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+  border: none;
+  text-align: center;
+}
+.dropdown__content button:hover {
+  background-color: #b5e5f1;
+}
+.dropdown__content button.active {
+  background-color: #89c1cf;
+}
+.dropdown:hover .dropdown__content {
+  display: block;
+}
+
+.dropdown:hover .dropdown__btn {
+  background-color: #16738a;
+  color: #f1f1f1;
+}
