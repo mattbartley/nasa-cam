@@ -1,5 +1,5 @@
 import "./css/App.css";
-import "./css/PhotoGallery.css";
+
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
@@ -11,6 +11,7 @@ import PhotoGallery from "./components/PhotoGallery";
 import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
+import HomeScreen from "./components/HomeScreen";
 
 function App() {
   const solPickedRef = useRef(null);
@@ -109,8 +110,8 @@ function App() {
   }, [selectedImage]);
 
   return (
-    <div className="App">
-      <div>Total Photos Collected: {manifestData.total_photos}</div>
+    <div className="app">
+      <HomeScreen />
       <SolPicker
         fetchedPhotos={fetchedPhotos}
         solPicked={solPicked}
@@ -121,7 +122,6 @@ function App() {
         <DatePicker
           value={fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked}
           onChange={(newDate) => {
-            console.log(newDate);
             setDatePicked(moment(newDate).format("YYYY-MM-DD"));
           }}
           renderInput={(params) => <TextField {...params} />}

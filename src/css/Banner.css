@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+}
+.banner {
+  height: 35rem;
+}
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center center;
+  height: 35rem;
+  width: 100%;
+  background-image: url(https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00437/ids/edr/browse/ncam/NRF_0437_0705743803_991ECM_N0244232NCAM02437_10_195J01_1200.jpg);
+  filter: brightness(0.3);
+  object-fit: contain;
+}
+
+.header__container {
+  position: relative;
+
+  padding-top: 7rem;
+}
+
+.banner__content {
+  text-align: left;
+  margin-left: 10vw;
+  max-width: 55%;
+}
+
+.banner__title {
+  font-family: "Aldrich", sans-serif;
+  font-weight: 300;
+  font-size: 2.8em;
+  letter-spacing: 2pt;
+  margin-bottom: 0.2rem;
+}
+
+.banner__subtitle {
+  font-family: "Aldrich", sans-serif;
+  text-transform: uppercase;
+  color: #ff7171;
+  font-weight: 500;
+  font-size: 1.1em;
+  line-height: 1.5em;
+}
+.banner__text {
+  font-family: "Red Hat Mono", monospace;
+  font-weight: 500;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  color: #f6f6ba;
+}
+
+.banner__hr {
+  border: 2px dashed #47aaaf;
+  left: 0;
+  margin: 2rem 0;
+}
+.hr__wrapper {
+  max-width: 35%;
+}
+
+.banner__subtext {
+  font-size: 0.7em;
+  display: block;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: white;
+}
+
+.banner__btn {
+  font-family: "Aldrich", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.1em;
+  background: none;
+  border: 3px solid #fff;
+  padding: 10px;
+  color: #fff;
+  margin-top: 2rem;
+  cursor: pointer;
+}

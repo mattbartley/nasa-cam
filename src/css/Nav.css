@@ -1,0 +1,58 @@
+.nav {
+  font-family: "Aldrich", sans-serif;
+  position: fixed;
+  top: 0;
+  padding: 15px;
+  width: 100%;
+  height: 1.5rem;
+  z-index: 1;
+  letter-spacing: 2pt;
+
+  /* Animations */
+  transition-timing-function: ease-in;
+
+  transition: all 0.5s;
+}
+
+.nav__black {
+  background-color: #0000006e;
+}
+
+.nav__content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  position: fixed;
+  left: 20px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.logo__nasa {
+  font-size: 30px;
+  color: #ff7171;
+  transition: font-size linear 0.3s;
+}
+.logo__cam {
+  font-size: 20px;
+  color: #ffffff;
+  transition: font-size linear 0.3s;
+  letter-spacing: normal;
+}
+
+.nasa__scroll {
+  font-size: 26px;
+}
+.cam__scroll {
+  font-size: 16px;
+}
+
+.nav__menu {
+  top: 1.3rem;
+  color: #ffffff;
+  position: fixed;
+  right: 20px;
+  cursor: pointer;
+}

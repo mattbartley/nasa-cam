@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-
+import "../css/PhotoGallery.css";
 export default function PhotoGallery({ image, setSelectedImage }) {
   return (
     <motion.div
