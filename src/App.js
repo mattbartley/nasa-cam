@@ -1,8 +1,6 @@
-import "./css/App.css";
-
 import React, { useState, useEffect, useRef } from "react";
+import "./css/App.css";
 import { motion, AnimatePresence } from "framer-motion";
-import moment from "moment";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -12,9 +10,11 @@ import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
 import HomeScreen from "./components/HomeScreen";
+import moment from "moment";
 
 function App() {
-  const solPickedRef = useRef(null);
+  const isManifestReadyDate = useRef(false);
+  const isManifestReadySol = useRef(false);
 
   // ↓ Data from manifest api
   const [manifestData, setManifestData] = useState("");
@@ -44,28 +44,36 @@ function App() {
   // Fetches all photos by given Earth date
   // ?? Move to component ??
   const getPhotosByDate = async (date) => {
-    if (date) {
-      const response = await (await fetch(apiDateBase + date)).json();
-      setFetchedPhotos(response.photos);
-      setFilteredPhotos(response.photos);
-      return response;
-    }
-    if (!date) {
-      console.log("Loading..Waiting for date from manifest");
+    if (isManifestReadyDate.current === true) {
+      if (date) {
+        const response = await (await fetch(apiDateBase + date)).json();
+        setFetchedPhotos(response.photos);
+        setFilteredPhotos(response.photos);
+        return response;
+      }
+      if (!date) {
+        console.log("Loading..Waiting for date from manifest");
+      }
+    } else {
+      isManifestReadyDate.current = true;
     }
   };
 
   // Fetches all photos by given Sol
   // ?? Move to component ??
   const getPhotosBySol = async (sol) => {
-    if (sol) {
-      const response = await (await fetch(apiSolBase + sol)).json();
-      setFetchedPhotos(response.photos);
-      setFilteredPhotos(response.photos);
-      return response;
-    }
-    if (!sol) {
-      console.log("Loading..Waiting for Sol from manifest");
+    if (isManifestReadySol.current == true) {
+      if (sol) {
+        const response = await (await fetch(apiSolBase + sol)).json();
+        setFetchedPhotos(response.photos);
+        setFilteredPhotos(response.photos);
+        return response;
+      }
+      if (!sol) {
+        console.log("Loading..Waiting for Sol from manifest");
+      }
+    } else {
+      isManifestReadySol.current = true;
     }
   };
 
@@ -79,22 +87,10 @@ function App() {
       .then((response) => response.json())
       .then((response) => {
         setDatePicked(response.photo_manifest.max_date);
-        setSolPicked(response.photo_manifest.max_sol);
         setManifestData(response.photo_manifest);
         return response.photo_manifest;
-      })
-      .then((manifestData) => fetch(apiDateBase + manifestData.max_date))
-      .then((response) => response.json())
-      .then((response) => {
-        setFetchedPhotos(response.photos);
       });
   }, []);
-
-  useEffect(() => {
-    if (fetchedPhotos.length > 0) {
-      setSolPicked(fetchedPhotos[0].sol);
-    }
-  }, [fetchedPhotos]);
 
   useEffect(() => {
     getPhotosByDate(datePicked);
@@ -115,7 +111,6 @@ function App() {
       <SolPicker
         fetchedPhotos={fetchedPhotos}
         solPicked={solPicked}
-        solPickedRef={solPickedRef}
         setSolPicked={setSolPicked}
       />
       <LocalizationProvider dateAdapter={AdapterMoment}>
