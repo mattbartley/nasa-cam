@@ -1,0 +1,33 @@
+.stats__container {
+  background: radial-gradient(at 50% 30%, rgb(0 20 24) 10%, rgb(0 28 44));
+  height: 55rem;
+  width: 100%;
+  margin: 0px;
+}
+
+.stats__card {
+  width: 70%;
+  top: -50px;
+  border-radius: 1px;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: rgb(70 178 189) -7.1px 7.1px 0px 0px,
+    rgb(69 178 189 / 62%) -14.1px 14.1px 0px 0px,
+    rgb(69 178 189 / 18%) -21.2px 21.2px;
+  background: #121212;
+}
+
+.card__content {
+  padding: 30px;
+}
+
+.card__content h3 {
+  font-family: "Aldrich", sans-serif;
+  font-weight: 300;
+  font-size: 1.8em;
+}
+
+.card__text {
+  padding-top: 20px;
+  line-height: 1.7em;
+}
