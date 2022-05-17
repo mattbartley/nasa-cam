@@ -1,11 +1,10 @@
 .nav {
-  font-family: "Aldrich", sans-serif;
+  font-family: "MBF Moonlander";
   position: fixed;
   top: 0;
   width: 100%;
   height: 1.5rem;
   z-index: 1;
-  letter-spacing: 2pt;
   padding: 15px 0px;
 
   /* Animations */

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "MBF Moonlander";
+  src: url("/src/css/fonts/MBFMoonlander.woff2") format("woff2"),
+    url("/src/css/fonts/MBFMoonlander.woff") format("woff"),
+    url("/src/css/fonts/MBFMoonlander.svg") format("svg");
+}
+
 body,
 html {
   margin: 0;
@@ -5,7 +12,7 @@ html {
   border: 0;
   font-size: 100%;
   vertical-align: baseline;
-  font-family: "Red Hat Mono", monospace;
+  font-family: "Jura", sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,5 +40,21 @@ table {
   border-spacing: 0;
 }
 a {
+  text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: "MBF Moonlander";
+  font-weight: normal;
+  font-style: normal;
+  text-transform: uppercase;
+}
+button {
+  font-family: "Jura", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1pt;
+  text-transform: uppercase;
   text-decoration: none;
 }
