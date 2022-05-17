@@ -1,5 +1,9 @@
+:root {
+  --main-bg-color: #061728;
+}
 .app {
   text-align: center;
+  background-color: var(--main-bg-color);
 }
 .photo__gallery__container {
   display: grid;

@@ -31,27 +31,25 @@
 }
 
 .banner__title {
-  font-family: "Aldrich", sans-serif;
-  font-weight: 300;
+  font-family: "MBF Moonlander", sans-serif;
   font-size: 2.8em;
   letter-spacing: 2pt;
   margin-bottom: 0.2rem;
 }
 
 .banner__subtitle {
-  font-family: "Aldrich", sans-serif;
   text-transform: uppercase;
   color: #ff7171;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1em;
   line-height: 1.5em;
+  letter-spacing: 1pt;
 }
 .banner__text {
-  font-family: "Red Hat Mono", monospace;
-  font-weight: 500;
-  font-size: 1.1em;
-  line-height: 1.5em;
-  color: #f6f6ba;
+  font-weight: 400;
+  font-size: 1.3em;
+  line-height: 1.3em;
+  color: #d2fffd;
 }
 
 .banner__hr {
@@ -67,14 +65,15 @@
   font-size: 0.7em;
   display: block;
   text-transform: uppercase;
-  font-weight: 400;
-  color: white;
+  font-weight: 500;
+  color: rgb(228, 228, 228);
+  margin-top: 0.7rem;
 }
 
 .banner__btn {
-  font-family: "Aldrich", sans-serif;
   text-transform: uppercase;
   font-size: 1.1em;
+  font-weight: 700;
   background: none;
   border: 3px solid #fff;
   padding: 10px;

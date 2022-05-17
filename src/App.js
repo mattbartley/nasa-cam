@@ -13,6 +13,7 @@ import HomeScreen from "./components/HomeScreen";
 import moment from "moment";
 
 function App() {
+  // Refs to prevent redundant API fetches on first load
   const isManifestReadyDate = useRef(false);
   const isManifestReadySol = useRef(false);
 
