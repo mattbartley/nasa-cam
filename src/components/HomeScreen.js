@@ -1,4 +1,4 @@
-import "../css/HomeScreen.css";
+import styles from "../css/HomeScreen.css";
 import Nav from "./Nav";
 import Banner from "./Banner";
 import Stats from "./Stats";
