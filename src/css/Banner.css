@@ -1,84 +1,68 @@
-* {
-  margin: 0;
-}
 .banner {
-  height: 35rem;
+  background-color: rgb(0, 0, 0);
 }
-.banner::before {
-  content: "";
-  position: absolute;
+
+.banner_container {
   top: 0;
   left: 0;
-  background-size: cover;
-  background-position: center center;
-  height: 35rem;
-  width: 100%;
-  background-image: url(https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00437/ids/edr/browse/ncam/NRF_0437_0705743803_991ECM_N0244232NCAM02437_10_195J01_1200.jpg);
-  filter: brightness(0.3);
-  object-fit: contain;
-}
-
-.header__container {
   position: relative;
-
-  padding-top: 7rem;
+  display: flex;
+  background: url("../assets/images/mars-header-alt.png");
+  background-position: bottom;
+  background-size: cover;
 }
 
 .banner__content {
+  padding-top: 12rem;
   text-align: left;
-  margin-left: 10vw;
-  max-width: 55%;
+  margin: 5%;
 }
 
 .banner__title {
-  font-family: "Aldrich", sans-serif;
-  font-weight: 300;
-  font-size: 2.8em;
-  letter-spacing: 2pt;
-  margin-bottom: 0.2rem;
+  font-family: "MBF Moonlander", sans-serif;
+  font-size: min(max(36px, 4vw), 70px);
+  margin-right: 10%;
+  letter-spacing: 0.2rem;
 }
 
 .banner__subtitle {
-  font-family: "Aldrich", sans-serif;
   text-transform: uppercase;
   color: #ff7171;
-  font-weight: 500;
-  font-size: 1.1em;
-  line-height: 1.5em;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: 0.1rem;
 }
 .banner__text {
-  font-family: "Red Hat Mono", monospace;
-  font-weight: 500;
-  font-size: 1.1em;
-  line-height: 1.5em;
-  color: #f6f6ba;
-}
-
-.banner__hr {
-  border: 2px dashed #47aaaf;
-  left: 0;
-  margin: 2rem 0;
-}
-.hr__wrapper {
-  max-width: 35%;
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: #d2fffd;
 }
 
 .banner__subtext {
-  font-size: 0.7em;
-  display: block;
+  font-size: 0.75rem;
+  display: grid;
   text-transform: uppercase;
-  font-weight: 400;
-  color: white;
+  color: rgb(228, 228, 228);
+  margin-top: 0.75vh;
 }
 
 .banner__btn {
-  font-family: "Aldrich", sans-serif;
   text-transform: uppercase;
-  font-size: 1.1em;
+  font-size: 0.75em;
+  font-weight: 700;
   background: none;
-  border: 3px solid #fff;
-  padding: 10px;
+  border: 2px solid #fff;
+  padding: 0.5rem;
   color: #fff;
-  margin-top: 2rem;
+  margin-top: 1rem;
   cursor: pointer;
+}
+
+.banner__picker {
+  display: flex;
+  justify-items: center;
+  position: absolute;
+  bottom: 0;
 }
