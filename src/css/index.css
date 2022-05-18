@@ -1,35 +1,21 @@
-@font-face {
-  font-family: "MBF Moonlander";
-  src: url("/src/css/fonts/MBFMoonlander.woff2") format("woff2"),
-    url("/src/css/fonts/MBFMoonlander.woff") format("woff"),
-    url("/src/css/fonts/MBFMoonlander.svg") format("svg");
-}
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
 body,
 html {
-  font-size: 17px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
   vertical-align: baseline;
-  font-family: "Jura", sans-serif;
+  font-family: "Red Hat Mono", monospace;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
+  line-height: 1;
   background-color: #182a34;
   color: #ffffef;
 }
-body {
-  font-size: 100%;
-}
 ol,
 ul {
-  list-style-type: none;
-}
-a {
-  text-decoration: none;
+  list-style: none;
 }
 blockquote,
 q {
@@ -47,29 +33,5 @@ table {
   border-spacing: 0;
 }
 a {
-  text-decoration: none;
-}
-h1,
-h2,
-h3,
-h4 {
-  font-family: "MBF Moonlander";
-  font-weight: normal;
-  font-style: normal;
-  text-transform: uppercase;
-  line-height: 1.5;
-}
-
-p {
-  margin: 10px 0;
-}
-img {
-  width: 100%;
-}
-button {
-  font-family: "Jura", sans-serif;
-  font-weight: 700;
-  letter-spacing: 1pt;
-  text-transform: uppercase;
   text-decoration: none;
 }
