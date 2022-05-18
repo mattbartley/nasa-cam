@@ -131,7 +131,7 @@ function App() {
         setActiveCamera={setActiveCamera}
         setActiveCameraName={setActiveCameraName}
       />
-      <DateSummary
+      {/*  <DateSummary
         fetchedPhotos={fetchedPhotos}
         filteredPhotos={filteredPhotos}
         activeCamera={activeCamera}
@@ -149,7 +149,7 @@ function App() {
             );
           })}
         </AnimatePresence>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }

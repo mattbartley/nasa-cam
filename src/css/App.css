@@ -1,8 +1,27 @@
 :root {
   --main-bg-color: #061728;
 }
+html {
+  font-size: min(max(15px, 4vw), 20px);
+  font-size: calc(15px + (20 - 15) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 .app {
-  text-align: center;
   background-color: var(--main-bg-color);
 }
 .photo__gallery__container {

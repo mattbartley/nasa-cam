@@ -5,17 +5,14 @@
   width: 100%;
   height: 1.5rem;
   z-index: 1;
-  padding: 15px 0px;
-
-  /* Animations */
+  padding-top: 25px;
+  box-sizing: content-box;
   transition-timing-function: ease-in;
-
   transition: all 0.5s;
 }
 
 .nav__black {
   background-color: #00000096;
-
   transform: translateY(-100%);
 }
 
@@ -29,10 +26,11 @@
   left: 20px;
   object-fit: contain;
   cursor: pointer;
+  align-self: center;
 }
 
 .logo__nasa {
-  font-size: 30px;
+  font-size: 1.6em;
   color: #ff7171;
   transition: font-size linear 0.3s;
 }
@@ -44,16 +42,17 @@
 }
 
 .nasa__scroll {
-  font-size: 26px;
+  font-size: 1.2em;
 }
 .cam__scroll {
-  font-size: 16px;
+  font-size: 1em;
 }
 
 .nav__menu {
-  top: 1.3rem;
   color: #ffffff;
   position: fixed;
   right: 20px;
   cursor: pointer;
+  font-size: 1em;
+  align-self: center;
 }
