@@ -1,84 +1,86 @@
-* {
-  margin: 0;
-}
 .banner {
-  height: 35rem;
+  background-color: rgb(4 10 16);
+  min-height: 24rem;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: stretch;
 }
-.banner::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
+
+.banner_container {
+  background: url("../assets/images/mars-header.png");
+  background-position: bottom;
   background-size: cover;
-  background-position: center center;
-  height: 35rem;
-  width: 100%;
-  background-image: url(https://mars.nasa.gov/mars2020-raw-images/pub/ods/surface/sol/00437/ids/edr/browse/ncam/NRF_0437_0705743803_991ECM_N0244232NCAM02437_10_195J01_1200.jpg);
-  filter: brightness(0.3);
-  object-fit: contain;
 }
 
-.header__container {
-  position: relative;
-
-  padding-top: 7rem;
+.banner__card {
+  padding-top: 9rem;
+  padding-bottom: 9rem;
+  display: grid;
+  align-content: center;
+  justify-items: center;
 }
 
 .banner__content {
-  text-align: left;
-  margin-left: 10vw;
-  max-width: 55%;
+  text-align: center;
+  display: grid;
+  align-content: space-evenly;
+  align-items: center;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.3rem);
+  border-radius: 10px;
+  padding: 1em;
+  border: 1px solid #ffffff14;
+  justify-items: center;
+  margin: 1rem 4rem 0 4rem;
 }
 
 .banner__title {
-  font-family: "Aldrich", sans-serif;
-  font-weight: 300;
-  font-size: 2.8em;
-  letter-spacing: 2pt;
-  margin-bottom: 0.2rem;
-}
-
-.banner__subtitle {
-  font-family: "Aldrich", sans-serif;
-  text-transform: uppercase;
-  color: #ff7171;
+  font-family: "Jura", sans-serif;
   font-weight: 500;
-  font-size: 1.1em;
-  line-height: 1.5em;
+  font-size: min(max(36px, 4vw), 70px);
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  text-align: center;
+  display: grid;
+  grid-gap: 50px;
+  line-height: 1;
+  padding: 0 1em;
+  align-content: stretch;
+  justify-content: center;
+  max-width: 85%;
+  margin: 0 0 1rem 0;
 }
 .banner__text {
-  font-family: "Red Hat Mono", monospace;
-  font-weight: 500;
-  font-size: 1.1em;
-  line-height: 1.5em;
-  color: #f6f6ba;
-}
-
-.banner__hr {
-  border: 2px dashed #47aaaf;
-  left: 0;
-  margin: 2rem 0;
-}
-.hr__wrapper {
-  max-width: 35%;
-}
-
-.banner__subtext {
-  font-size: 0.7em;
-  display: block;
-  text-transform: uppercase;
   font-weight: 400;
-  color: white;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  max-width: 85%;
+}
+.banner__subtext {
+  font-size: 0.75rem;
+  display: grid;
+  text-transform: uppercase;
+  text-align: right;
+  padding: 1rem;
 }
 
 .banner__btn {
-  font-family: "Aldrich", sans-serif;
   text-transform: uppercase;
-  font-size: 1.1em;
+  font-size: 0.9rem;
+  font-weight: 700;
   background: none;
-  border: 3px solid #fff;
-  padding: 10px;
+  border: 2px solid #fff;
+  padding: 0.5rem;
   color: #fff;
-  margin-top: 2rem;
+  margin-top: 1rem;
   cursor: pointer;
+}
+
+.banner__picker {
+  display: flex;
+  justify-items: center;
+  position: absolute;
+  bottom: 0;
 }

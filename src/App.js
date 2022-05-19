@@ -13,11 +13,14 @@ import HomeScreen from "./components/HomeScreen";
 import moment from "moment";
 
 function App() {
+  // Refs to prevent redundant API fetches on first load
+  const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
   const isManifestReadySol = useRef(false);
 
   // ↓ Data from manifest api
   const [manifestData, setManifestData] = useState("");
+  const [manifestDates, setManifestDates] = useState([]);
   // ↓ Photos fetched from getPhotosByDate() or getPhotosBySol()
   const [fetchedPhotos, setFetchedPhotos] = useState([]);
   // ↓  Date or Sol Picked by user
@@ -83,13 +86,16 @@ function App() {
   // ?? Move to component ??
 
   useEffect(() => {
-    fetch(apiManifestUrl)
-      .then((response) => response.json())
-      .then((response) => {
-        setDatePicked(response.photo_manifest.max_date);
-        setManifestData(response.photo_manifest);
-        return response.photo_manifest;
-      });
+    if (isManifestLoaded.current == false) {
+      fetch(apiManifestUrl)
+        .then((response) => response.json())
+        .then((response) => {
+          setDatePicked(response.photo_manifest.max_date);
+          setManifestData(response.photo_manifest);
+          isManifestLoaded.current = true;
+          return response.photo_manifest;
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -104,6 +110,23 @@ function App() {
   useEffect(() => {
     console.log(selectedImage);
   }, [selectedImage]);
+
+  //Get all earth dates from manifest that had photos to use for datepicker
+  useEffect(() => {
+    if (isManifestLoaded.current == true) {
+      setManifestDates(
+        Object.values(manifestData.photos).map((item) => {
+          return item.earth_date;
+        })
+      );
+    } else console.log("manifest loaded: " + isManifestLoaded.current);
+  }, [manifestData]);
+
+  //Datepicker takes function that retures true or false to disable any dates
+  //If it's not in the manifestDates, return true to disable it
+  const getDisabledDates = (date) => {
+    return !manifestDates.includes(date.toISOString().split("T")[0]);
+  };
 
   return (
     <div className="app">
@@ -121,6 +144,7 @@ function App() {
           }}
           renderInput={(params) => <TextField {...params} />}
           disableFuture={true}
+          shouldDisableDate={getDisabledDates}
         />
       </LocalizationProvider>
       <GalleryFilter
