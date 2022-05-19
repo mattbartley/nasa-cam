@@ -1,8 +1,6 @@
-import "../css/Banner.css";
+import styles from "../css/Banner.css";
 
 export default function Banner() {
-  // ↓ Currently selected camera filter for photo gallery - 0 state returns all - real cameras have unique ids
-
   return (
     <header className="banner">
       <div className="banner_container">
