@@ -65,7 +65,7 @@ function App() {
   // Fetches all photos by given Sol
   // ?? Move to component ??
   const getPhotosBySol = async (sol) => {
-    if (isManifestReadySol.current == true) {
+    if (isManifestReadySol.current === true) {
       if (sol) {
         const response = await (await fetch(apiSolBase + sol)).json();
         setFetchedPhotos(response.photos);
@@ -86,7 +86,7 @@ function App() {
   // ?? Move to component ??
 
   useEffect(() => {
-    if (isManifestLoaded.current == false) {
+    if (isManifestLoaded.current === false) {
       fetch(apiManifestUrl)
         .then((response) => response.json())
         .then((response) => {
@@ -113,7 +113,7 @@ function App() {
 
   //Get all earth dates from manifest that had photos to use for datepicker
   useEffect(() => {
-    if (isManifestLoaded.current == true) {
+    if (isManifestLoaded.current === true) {
       setManifestDates(
         Object.values(manifestData.photos).map((item) => {
           return item.earth_date;
