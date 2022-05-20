@@ -1,4 +1,4 @@
-import styles from "../css/Banner.css";
+import "../css/Banner.css";
 
 export default function Banner() {
   return (
@@ -17,9 +17,6 @@ export default function Banner() {
             <button className="banner__btn">See Latest Images</button>
           </div>
         </div>
-        <span className="banner__subtext">
-          ALL Images Credited to NASA/JPL-Caltech
-        </span>
       </div>
     </header>
   );
