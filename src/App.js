@@ -36,13 +36,13 @@ function App() {
 
   // ↓ API URLs
   const apiManifestUrl =
-    "https://api.nasa.gov/mars-photos/api/v1/manifests/perseverance/?api_key=HACS3HKSQQHSmtW21KacsmgbrgfC4NBCEkw9lYhl";
+    "https://mars-photos.herokuapp.com/api/v1/manifests/perseverance/";
 
   const apiDateBase =
-    "https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?api_key=HACS3HKSQQHSmtW21KacsmgbrgfC4NBCEkw9lYhl&earth_date=";
+    "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?earth_date=";
 
   const apiSolBase =
-    "https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?api_key=HACS3HKSQQHSmtW21KacsmgbrgfC4NBCEkw9lYhl&sol=";
+    "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
 
   // Fetches all photos by given Earth date
   // ?? Move to component ??
@@ -108,7 +108,9 @@ function App() {
 
   //Handle Clicked Image - gets the selected image object from img onClick inside PhotoGallery component
   useEffect(() => {
-    console.log(selectedImage);
+    if (selectedImage.length > 0) {
+      console.log(selectedImage[0].img_src + " - ID: " + selectedImage[1]);
+    }
   }, [selectedImage]);
 
   //Get all earth dates from manifest that had photos to use for datepicker
@@ -162,11 +164,12 @@ function App() {
       />
       <motion.div layout className="photo__gallery__container">
         <AnimatePresence>
-          {filteredPhotos.map((image) => {
+          {filteredPhotos.map((image, i) => {
             return (
               <PhotoGallery
                 image={image}
                 key={image.id}
+                index={i}
                 setSelectedImage={setSelectedImage}
               />
             );
