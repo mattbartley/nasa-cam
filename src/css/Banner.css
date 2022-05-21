@@ -43,14 +43,14 @@
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   text-align: center;
-  display: grid;
-  grid-gap: 50px;
   line-height: 1;
-  padding: 0 1em;
   align-content: stretch;
   justify-content: center;
-  max-width: 85%;
-  margin: 0 0 1rem 0;
+  margin: 0rem 0 3rem 0;
+  max-width: 90%;
+}
+.banner__title span {
+  font-weight: 700;
 }
 .banner__text {
   font-weight: 400;

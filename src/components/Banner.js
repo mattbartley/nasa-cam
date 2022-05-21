@@ -4,10 +4,9 @@ export default function Banner() {
   return (
     <header className="banner">
       <div className="banner_container">
-        {/* <h1 className="banner__title">NASA.CAM</h1> */}
         <div className="banner__card">
           <h1 className="banner__title">
-            Raw Images Collected Directly From Mars
+            Images Collected Directly From Mars by <span>NASA</span>
           </h1>
           <div className="banner__content">
             <p className="banner__text">
