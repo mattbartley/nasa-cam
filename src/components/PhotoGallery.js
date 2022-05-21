@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import "../css/PhotoGallery.css";
-export default function PhotoGallery({ image, index, setSelectedImage }) {
+import Lightbox from "./Lightbox";
+
+export default function PhotoGallery({ image, index, filteredPhotos }) {
   const smallExt = "_320.jpg";
   const mediumExt = "_800.jpg";
   const largeExt = "_1200.jpg";
@@ -13,6 +16,53 @@ export default function PhotoGallery({ image, index, setSelectedImage }) {
   let mediumSrc = imgSrcBase + mediumExt;
   let largeSrc = imgSrcBase + largeExt;
   let fullSrc = imgSrcBase + fullExt;
+
+  const [clickedImage, setClickedImage] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [imageSize, setImageSize] = useState();
+
+  const getImageSize = (url) => {
+    let img = new Image();
+    img.src = url;
+    img.onload = () => {
+      setImageSize([img.width, img.height]);
+    };
+  };
+
+  const handleClick = (image, index) => {
+    setCurrentIndex(index);
+    setClickedImage(image);
+    getImageSize(image.img_src);
+    console.log(imageSize);
+  };
+
+  const handleNext = () => {
+    const totalImages = filteredPhotos.length;
+    if (currentIndex + 1 >= totalImages) {
+      setCurrentIndex(0);
+      const newSrc = filteredPhotos[0];
+      setClickedImage(newSrc);
+      return;
+    }
+    const newIndex = currentIndex + 1;
+    const newImage = filteredPhotos[newIndex];
+    setClickedImage(newImage);
+    setCurrentIndex(newIndex);
+  };
+  const handlePrevious = () => {
+    const totalImages = filteredPhotos.length;
+    if (currentIndex === 0) {
+      setCurrentIndex(totalImages - 1);
+      const newSrc = filteredPhotos[totalImages - 1];
+      setClickedImage(newSrc);
+      return;
+    }
+    const newIndex = currentIndex - 1;
+    const newImage = filteredPhotos[newIndex];
+    setClickedImage(newImage);
+    setCurrentIndex(newIndex);
+  };
+
   return (
     <motion.div
       layout
@@ -20,12 +70,12 @@ export default function PhotoGallery({ image, index, setSelectedImage }) {
       initial={{ y: 60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -60, opacity: 0 }}
+      key={index}
     >
       <img
         className="gallery__image"
         id={image.id}
-        idx={index}
-        onClick={() => setSelectedImage([image, index])}
+        onClick={() => handleClick(image, index)}
         sizes={
           "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
         }
@@ -40,7 +90,16 @@ export default function PhotoGallery({ image, index, setSelectedImage }) {
           " - sol: " +
           image.sol
         }
-      ></img>
+      />
+      {clickedImage && (
+        <Lightbox
+          clickedImage={clickedImage}
+          handlePrevious={handlePrevious}
+          handleNext={handleNext}
+          setClickedImage={setClickedImage}
+          imageSize={imageSize}
+        />
+      )}
     </motion.div>
   );
 }
