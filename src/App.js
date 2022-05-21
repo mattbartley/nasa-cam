@@ -10,6 +10,7 @@ import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
 import HomeScreen from "./components/HomeScreen";
+
 import moment from "moment";
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
 
   const apiSolBase =
     "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
+
+  const lightboxContainer = useRef(null);
 
   // Fetches all photos by given Earth date
   // ?? Move to component ??
@@ -164,13 +167,13 @@ function App() {
       />
       <motion.div layout className="photo__gallery__container">
         <AnimatePresence>
-          {filteredPhotos.map((image, i) => {
+          {filteredPhotos.map((image, index) => {
             return (
               <PhotoGallery
                 image={image}
                 key={image.id}
-                index={i}
-                setSelectedImage={setSelectedImage}
+                index={index}
+                filteredPhotos={filteredPhotos}
               />
             );
           })}
