@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 
 export default function GalleryFilter({
   images,
-  setFilteredPhotos,
+  setCurrentFilteredImages,
   activeCamera,
   setActiveCamera,
   setActiveCameraName,
@@ -48,17 +48,17 @@ export default function GalleryFilter({
     const filtered = images.filter((photo) => photo.camera.id === activeCamera);
     {
       activeCamera === 0
-        ? setFilteredPhotos(images)
-        : setFilteredPhotos(filtered);
+        ? setCurrentFilteredImages(images)
+        : setCurrentFilteredImages(filtered);
     }
+    console.log("filtered: " + filtered.length);
   }, [activeCamera]);
-
   const [age, setAge] = useState("");
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-
+  console.log(activeCamera);
   return (
     <FormControl sx={{ m: 0 }}>
       <InputLabel>SELECT CAMERA</InputLabel>
@@ -66,7 +66,7 @@ export default function GalleryFilter({
         sx={{ m: 0, minWidth: 210 }}
         id="camera__select"
         value={age}
-        onChange={handleChange}
+        //onChange={handleChange}
         label="SELECT CAMERA"
         autoWidth
       >
@@ -87,6 +87,7 @@ export default function GalleryFilter({
               onClick={() => {
                 setActiveCamera(cameraID);
                 setActiveCameraName(cameraName);
+                console.log(cameraName);
               }}
             >
               {cameraName}

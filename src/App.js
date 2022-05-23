@@ -87,6 +87,7 @@ function App() {
   // Fetches all photos by given Earth date
   // ?? Move to component ??
   const getPhotosByDate = async (date) => {
+    setImagesPerPage(25);
     if (isManifestReadyDate.current === true) {
       if (date) {
         const response = await (await fetch(apiDateBase + date)).json();
@@ -105,6 +106,7 @@ function App() {
   // Fetches all photos by given Sol
   // ?? Move to component ??
   const getPhotosBySol = async (sol) => {
+    setImagesPerPage(25);
     if (isManifestReadySol.current === true) {
       if (sol) {
         const response = await (await fetch(apiSolBase + sol)).json();
@@ -146,13 +148,6 @@ function App() {
     getPhotosBySol(solPicked);
   }, [solPicked]);
 
-  //Handle Clicked Image - gets the selected image object from img onClick inside PhotoGallery component
-  useEffect(() => {
-    if (selectedImage.length > 0) {
-      console.log(selectedImage[0].img_src + " - ID: " + selectedImage[1]);
-    }
-  }, [selectedImage]);
-
   //Get all earth dates from manifest that had photos to use for datepicker
   useEffect(() => {
     if (isManifestLoaded.current === true) {
@@ -163,6 +158,23 @@ function App() {
       );
     } else console.log("manifest loaded: " + isManifestLoaded.current);
   }, [manifestData]);
+
+  //Load 25 images at a time
+  const [imagesPerPage, setImagesPerPage] = useState(0);
+  const [currentImages, setCurrentImages] = useState([]);
+  const [currentFilteredImages, setCurrentFilteredImages] = useState([]);
+
+  useEffect(() => {
+    setCurrentImages(fetchedPhotos.slice(0, imagesPerPage));
+    setCurrentFilteredImages(fetchedPhotos.slice(0, imagesPerPage));
+    console.log("App currentimages: " + currentImages.length);
+    console.log("App filteredimages: " + currentFilteredImages.length);
+  }, [imagesPerPage, fetchedPhotos]);
+
+  const handleLoadMore = () => {
+    setImagesPerPage(imagesPerPage + 25);
+    return;
+  };
 
   //Datepicker takes function that retures true or false to disable any dates
   //If it's not in the manifestDates, return true to disable it
@@ -239,8 +251,8 @@ function App() {
 
           <Grid item xs="auto">
             <GalleryFilter
-              images={fetchedPhotos}
-              setFilteredPhotos={setFilteredPhotos}
+              images={currentImages}
+              setCurrentFilteredImages={setCurrentFilteredImages}
               activeCamera={activeCamera}
               setActiveCamera={setActiveCamera}
               setActiveCameraName={setActiveCameraName}
@@ -255,19 +267,27 @@ function App() {
         />
         <motion.div layout className="photo__gallery__container">
           <AnimatePresence>
-            {filteredPhotos.map((image, index) => {
+            {currentFilteredImages.map((image, index) => {
               return (
                 <PhotoGallery
                   image={image}
                   key={image.id}
                   index={index}
                   filteredPhotos={filteredPhotos}
+                  imagesPerPage={imagesPerPage}
+                  setImagesPerPage={setImagesPerPage}
                 />
               );
             })}
           </AnimatePresence>
         </motion.div>
       </ThemeProvider>
+      <button
+        onClick={handleLoadMore}
+        disabled={imagesPerPage >= fetchedPhotos.length ? "disabled" : ""}
+      >
+        Load More
+      </button>
     </div>
   );
 }
