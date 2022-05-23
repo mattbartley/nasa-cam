@@ -9,57 +9,14 @@ html {
   background-color: var(--main-bg-color);
 }
 
-.dropdown__btn {
-  background-color: #2298b6;
-  color: white;
-  padding: 16px 0px;
-  font-size: 16px;
-  border: none;
-  min-width: 250px;
+.search__intro {
+  text-align: center;
+  display: block;
+}
+
+.search__title {
+  text-align: center;
+  width: 100%;
   text-transform: uppercase;
-  font-weight: 600;
-  text-align: center;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
-}
-
-.dropdown__content {
-  border: none;
-  padding: 10px 0px;
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  z-index: 1;
-  text-align: center;
-  margin: 0 auto;
-  width: max-content;
-}
-
-.dropdown__content button {
-  cursor: pointer;
-  color: black;
-  padding: 5px 10px;
-  text-decoration: none;
-  display: block;
-  border: none;
-  text-align: center;
-}
-.dropdown__content button:hover {
-  background-color: #b5e5f1;
-}
-.dropdown__content button.active {
-  background-color: #89c1cf;
-}
-.dropdown:hover .dropdown__content {
-  display: block;
-}
-
-.dropdown:hover .dropdown__btn {
-  background-color: #16738a;
-  color: #f1f1f1;
+  font-size: 1.1rem;
 }

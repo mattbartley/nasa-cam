@@ -60,43 +60,40 @@ export default function GalleryFilter({
   };
 
   return (
-    <>
-      <div>
-        <FormControl fullWidth>
-          <InputLabel>SELECT CAMERA</InputLabel>
-          <Select
-            id="camera__select"
-            value={age}
-            onChange={handleChange}
-            label="SELECT CAMERA"
-            autoWidth
-          >
+    <FormControl sx={{ m: 0 }}>
+      <InputLabel>SELECT CAMERA</InputLabel>
+      <Select
+        sx={{ m: 0, minWidth: 210 }}
+        id="camera__select"
+        value={age}
+        onChange={handleChange}
+        label="SELECT CAMERA"
+        autoWidth
+      >
+        <MenuItem
+          onClick={() => {
+            setActiveCamera(0);
+            setActiveCameraName("All Cameras");
+          }}
+        >
+          <em>ALL CAMERAS</em>
+        </MenuItem>
+        {Object.keys(availableCameras).map((camera) => {
+          const cameraID = parseInt(camera);
+          const cameraName = availableCameras[camera];
+          return (
             <MenuItem
+              key={camera}
               onClick={() => {
-                setActiveCamera(0);
-                setActiveCameraName("All Cameras");
+                setActiveCamera(cameraID);
+                setActiveCameraName(cameraName);
               }}
             >
-              <em>ALL CAMERAS</em>
+              {cameraName}
             </MenuItem>
-            {Object.keys(availableCameras).map((camera) => {
-              const cameraID = parseInt(camera);
-              const cameraName = availableCameras[camera];
-              return (
-                <MenuItem
-                  key={camera}
-                  onClick={() => {
-                    setActiveCamera(cameraID);
-                    setActiveCameraName(cameraName);
-                  }}
-                >
-                  {cameraName}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </div>
-    </>
+          );
+        })}
+      </Select>
+    </FormControl>
   );
 }

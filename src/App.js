@@ -5,7 +5,8 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
+import { Grid, Container, Box, Tooltip } from "@mui/material/";
+import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
 import GalleryFilter from "./components/GalleryFilter";
@@ -17,6 +18,15 @@ import moment from "moment";
 
 function App() {
   const darkTheme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
     palette: {
       mode: "dark",
     },
@@ -164,38 +174,78 @@ function App() {
     <div className="app">
       <ThemeProvider theme={darkTheme}>
         <HomeScreen />
-        <Stack
-          direction="row"
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            sx={{
+              color: "#ccc",
+              fontSize: ".85rem",
+              paddingLeft: 2,
+              paddingRight: 2,
+              m: 1,
+              borderBottom: 1,
+              borderColor: "rgba(255, 355, 255, 0.23)",
+              maxWidth: 40 / 100,
+              alignmentBaseline: "bottom",
+            }}
+          >
+            <p className="search__intro">
+              Search by Earth Date or <em>Sol</em>
+              <Tooltip title="A Sol is one solar day on Mars. Sol 0 is the first day for Perseverance on Mars.">
+                <HelpIcon
+                  sx={{ fontSize: "1rem", textAlign: "right", marginLeft: 1 }}
+                />
+              </Tooltip>
+            </p>
+          </Box>
+        </Container>
+
+        <Grid
+          container
+          spacing={2}
           justifyContent="center"
           alignItems="center"
-          spacing={2}
+          sx={{ paddingBottom: 2, paddingTop: 1 }}
         >
-          <SolPicker
-            fetchedPhotos={fetchedPhotos}
-            solPicked={solPicked}
-            setSolPicked={setSolPicked}
-          />
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DatePicker
-              value={
-                fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked
-              }
-              onChange={(newDate) => {
-                setDatePicked(moment(newDate).format("YYYY-MM-DD"));
-              }}
-              renderInput={(params) => <TextField {...params} />}
-              disableFuture={true}
-              shouldDisableDate={getDisabledDates}
+          <Grid item xs="auto">
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                sx={{ m: 0 }}
+                value={
+                  fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked
+                }
+                onChange={(newDate) => {
+                  setDatePicked(moment(newDate).format("YYYY-MM-DD"));
+                }}
+                renderInput={(params) => <TextField {...params} />}
+                disableFuture={true}
+                shouldDisableDate={getDisabledDates}
+              />
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs="auto">
+            <SolPicker
+              fetchedPhotos={fetchedPhotos}
+              solPicked={solPicked}
+              setSolPicked={setSolPicked}
             />
-          </LocalizationProvider>
-          <GalleryFilter
-            images={fetchedPhotos}
-            setFilteredPhotos={setFilteredPhotos}
-            activeCamera={activeCamera}
-            setActiveCamera={setActiveCamera}
-            setActiveCameraName={setActiveCameraName}
-          />
-        </Stack>
+          </Grid>
+
+          <Grid item xs="auto">
+            <GalleryFilter
+              images={fetchedPhotos}
+              setFilteredPhotos={setFilteredPhotos}
+              activeCamera={activeCamera}
+              setActiveCamera={setActiveCamera}
+              setActiveCameraName={setActiveCameraName}
+            />
+          </Grid>
+        </Grid>
         <DateSummary
           fetchedPhotos={fetchedPhotos}
           filteredPhotos={filteredPhotos}

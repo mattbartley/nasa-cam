@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { Button, FormGroup, TextField, Box } from "@mui/material/";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
   const [solInput, setSolInput] = useState("");
@@ -13,9 +13,16 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
   };
 
   return (
-    <form>
+    <FormGroup row sx={{}}>
       <TextField
-        id="outlined"
+        sx={{
+          textTransform: "uppercase",
+          fieldset: {
+            borderTopRightRadius: "0px",
+            borderBottomRightRadius: "0px",
+          },
+        }}
+        label="Search Sol"
         variant="outlined"
         placeholder={
           fetchedPhotos != ""
@@ -28,17 +35,30 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
           e.preventDefault();
           setSolInput(e.target.value);
         }}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            setSolPicked(solInput);
+            setSolInput("");
+            e.preventDefault();
+          }
+        }}
       />
 
       <Button
-        sx={{ m: 1 }}
+        sx={{
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+        }}
         variant="outlined"
         size="large"
         onClick={showBySol}
         type="submit"
+        disableElevation
       >
-        Show by Sol
+        <ArrowCircleRightIcon />
       </Button>
-    </form>
+    </FormGroup>
   );
 }
