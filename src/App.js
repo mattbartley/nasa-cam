@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Grid, Container, Box, Tooltip } from "@mui/material/";
+import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
 import GalleryFilter from "./components/GalleryFilter";
@@ -14,6 +17,40 @@ import HomeScreen from "./components/HomeScreen";
 import moment from "moment";
 
 function App() {
+  const darkTheme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
+    palette: {
+      mode: "dark",
+    },
+    typography: {
+      fontFamily: [
+        "Jura",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+      ].join(","),
+    },
+    primary: {
+      color: "#5ccfc4",
+    },
+    focused: {
+      color: "#5ccfc4",
+    },
+  });
   // Refs to prevent redundant API fetches on first load
   const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
@@ -135,50 +172,102 @@ function App() {
 
   return (
     <div className="app">
-      <HomeScreen />
-      <SolPicker
-        fetchedPhotos={fetchedPhotos}
-        solPicked={solPicked}
-        setSolPicked={setSolPicked}
-      />
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <DatePicker
-          value={fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked}
-          onChange={(newDate) => {
-            setDatePicked(moment(newDate).format("YYYY-MM-DD"));
+      <ThemeProvider theme={darkTheme}>
+        <HomeScreen />
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
           }}
-          renderInput={(params) => <TextField {...params} />}
-          disableFuture={true}
-          shouldDisableDate={getDisabledDates}
-        />
-      </LocalizationProvider>
-      <GalleryFilter
-        images={fetchedPhotos}
-        setFilteredPhotos={setFilteredPhotos}
-        activeCamera={activeCamera}
-        setActiveCamera={setActiveCamera}
-        setActiveCameraName={setActiveCameraName}
-      />
-      <DateSummary
-        fetchedPhotos={fetchedPhotos}
-        filteredPhotos={filteredPhotos}
-        activeCamera={activeCamera}
-        activeCameraName={activeCameraName}
-      />
-      <motion.div layout className="photo__gallery__container">
-        <AnimatePresence>
-          {filteredPhotos.map((image, index) => {
-            return (
-              <PhotoGallery
-                image={image}
-                key={image.id}
-                index={index}
-                filteredPhotos={filteredPhotos}
+        >
+          <Box
+            sx={{
+              color: "#ccc",
+              fontSize: ".85rem",
+              paddingLeft: 2,
+              paddingRight: 2,
+              m: 1,
+              borderBottom: 1,
+              borderColor: "rgba(255, 355, 255, 0.23)",
+              maxWidth: 40 / 100,
+              alignmentBaseline: "bottom",
+            }}
+          >
+            <p className="search__intro">
+              Search by Earth Date or <em>Sol</em>
+              <Tooltip title="A Sol is one solar day on Mars. Sol 0 is the first day for Perseverance on Mars.">
+                <HelpIcon
+                  sx={{ fontSize: "1rem", textAlign: "right", marginLeft: 1 }}
+                />
+              </Tooltip>
+            </p>
+          </Box>
+        </Container>
+
+        <Grid
+          container
+          id="query__section"
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ paddingBottom: 2, paddingTop: 1 }}
+        >
+          <Grid item xs="auto">
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                sx={{ m: 0 }}
+                value={
+                  fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked
+                }
+                onChange={(newDate) => {
+                  setDatePicked(moment(newDate).format("YYYY-MM-DD"));
+                }}
+                renderInput={(params) => <TextField {...params} />}
+                disableFuture={true}
+                shouldDisableDate={getDisabledDates}
               />
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs="auto">
+            <SolPicker
+              fetchedPhotos={fetchedPhotos}
+              solPicked={solPicked}
+              setSolPicked={setSolPicked}
+            />
+          </Grid>
+
+          <Grid item xs="auto">
+            <GalleryFilter
+              images={fetchedPhotos}
+              setFilteredPhotos={setFilteredPhotos}
+              activeCamera={activeCamera}
+              setActiveCamera={setActiveCamera}
+              setActiveCameraName={setActiveCameraName}
+            />
+          </Grid>
+        </Grid>
+        <DateSummary
+          fetchedPhotos={fetchedPhotos}
+          filteredPhotos={filteredPhotos}
+          activeCamera={activeCamera}
+          activeCameraName={activeCameraName}
+        />
+        <motion.div layout className="photo__gallery__container">
+          <AnimatePresence>
+            {filteredPhotos.map((image, index) => {
+              return (
+                <PhotoGallery
+                  image={image}
+                  key={image.id}
+                  index={index}
+                  filteredPhotos={filteredPhotos}
+                />
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      </ThemeProvider>
     </div>
   );
 }

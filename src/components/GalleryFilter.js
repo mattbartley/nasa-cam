@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 export default function GalleryFilter({
   images,
   setFilteredPhotos,
@@ -48,36 +53,47 @@ export default function GalleryFilter({
     }
   }, [activeCamera]);
 
+  const [age, setAge] = useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   return (
-    <div className="dropdown">
-      <div className="dropdown__btn">Select Camera</div>
-      <div className="dropdown__content">
-        <button
+    <FormControl sx={{ m: 0 }}>
+      <InputLabel>SELECT CAMERA</InputLabel>
+      <Select
+        sx={{ m: 0, minWidth: 210 }}
+        id="camera__select"
+        value={age}
+        onChange={handleChange}
+        label="SELECT CAMERA"
+        autoWidth
+      >
+        <MenuItem
           onClick={() => {
             setActiveCamera(0);
             setActiveCameraName("All Cameras");
           }}
-          className={activeCamera === 0 ? "active" : ""}
         >
-          All Cameras
-        </button>
+          <em>ALL CAMERAS</em>
+        </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);
           const cameraName = availableCameras[camera];
           return (
-            <button
+            <MenuItem
               key={camera}
-              className={activeCamera === cameraID ? "active" : ""}
               onClick={() => {
                 setActiveCamera(cameraID);
                 setActiveCameraName(cameraName);
               }}
             >
               {cameraName}
-            </button>
+            </MenuItem>
           );
         })}
-      </div>
-    </div>
+      </Select>
+    </FormControl>
   );
 }

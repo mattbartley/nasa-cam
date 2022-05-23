@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import "../css/PhotoGallery.css";
 import Lightbox from "./Lightbox";
+import { Skeleton } from "@mui/material/";
 
 export default function PhotoGallery({ image, index, filteredPhotos }) {
   const smallExt = "_320.jpg";
@@ -72,25 +73,29 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
       exit={{ y: -60, opacity: 0 }}
       key={index}
     >
-      <img
-        className="gallery__image"
-        id={image.id}
-        onClick={() => handleClick(image, index)}
-        sizes={
-          "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
-        }
-        srcSet={`${smallSrc} 320w, ${mediumSrc} 800w, ${largeSrc} 1200w`}
-        alt={
-          "Nasa Mars Photo id: " +
-          image.id +
-          " using camera: " +
-          image.camera.full_name +
-          ". Taken on " +
-          image.earth_date +
-          " - sol: " +
-          image.sol
-        }
-      />
+      {!image ? (
+        <Skeleton variant="rectangular" width={210} height={118} />
+      ) : (
+        <img
+          className="gallery__image"
+          id={image.id}
+          onClick={() => handleClick(image, index)}
+          sizes={
+            "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
+          }
+          srcSet={`${smallSrc} 320w, ${mediumSrc} 800w, ${largeSrc} 1200w`}
+          alt={
+            "Nasa Mars Photo id: " +
+            image.id +
+            " using camera: " +
+            image.camera.full_name +
+            ". Taken on " +
+            image.earth_date +
+            " - sol: " +
+            image.sol
+          }
+        />
+      )}
       {clickedImage && (
         <Lightbox
           clickedImage={clickedImage}
