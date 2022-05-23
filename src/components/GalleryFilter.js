@@ -53,44 +53,34 @@ export default function GalleryFilter({
     }
     console.log("filtered: " + filtered.length);
   }, [activeCamera]);
-  const [age, setAge] = useState("");
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const cameraValue = "";
+  const handleCameraChange = (event) => {
+    console.log(event.target.value);
+    setActiveCamera(event.target.value[0]);
+    setActiveCameraName(event.target.value[1]);
   };
-  console.log(activeCamera);
+
   return (
     <FormControl sx={{ m: 0 }}>
       <InputLabel>SELECT CAMERA</InputLabel>
       <Select
         sx={{ m: 0, minWidth: 210 }}
+        value={cameraValue}
+        onChange={handleCameraChange}
         id="camera__select"
-        value={age}
-        //onChange={handleChange}
         label="SELECT CAMERA"
         autoWidth
       >
-        <MenuItem
-          onClick={() => {
-            setActiveCamera(0);
-            setActiveCameraName("All Cameras");
-          }}
-        >
+        <MenuItem value={[0, "All Cameras"]}>
           <em>ALL CAMERAS</em>
         </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);
-          const cameraName = availableCameras[camera];
+          const cameraFullName = availableCameras[camera];
           return (
-            <MenuItem
-              key={camera}
-              onClick={() => {
-                setActiveCamera(cameraID);
-                setActiveCameraName(cameraName);
-                console.log(cameraName);
-              }}
-            >
-              {cameraName}
+            <MenuItem key={camera} value={[cameraID, cameraFullName]}>
+              {cameraFullName}
             </MenuItem>
           );
         })}
