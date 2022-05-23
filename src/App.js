@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
 import GalleryFilter from "./components/GalleryFilter";
@@ -14,6 +16,31 @@ import HomeScreen from "./components/HomeScreen";
 import moment from "moment";
 
 function App() {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+    typography: {
+      fontFamily: [
+        "Jura",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+      ].join(","),
+    },
+    primary: {
+      color: "#5ccfc4",
+    },
+    focused: {
+      color: "#5ccfc4",
+    },
+  });
   // Refs to prevent redundant API fetches on first load
   const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
@@ -135,50 +162,61 @@ function App() {
 
   return (
     <div className="app">
-      <HomeScreen />
-      <SolPicker
-        fetchedPhotos={fetchedPhotos}
-        solPicked={solPicked}
-        setSolPicked={setSolPicked}
-      />
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <DatePicker
-          value={fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked}
-          onChange={(newDate) => {
-            setDatePicked(moment(newDate).format("YYYY-MM-DD"));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-          disableFuture={true}
-          shouldDisableDate={getDisabledDates}
+      <ThemeProvider theme={darkTheme}>
+        <HomeScreen />
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        >
+          <SolPicker
+            fetchedPhotos={fetchedPhotos}
+            solPicked={solPicked}
+            setSolPicked={setSolPicked}
+          />
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DatePicker
+              value={
+                fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked
+              }
+              onChange={(newDate) => {
+                setDatePicked(moment(newDate).format("YYYY-MM-DD"));
+              }}
+              renderInput={(params) => <TextField {...params} />}
+              disableFuture={true}
+              shouldDisableDate={getDisabledDates}
+            />
+          </LocalizationProvider>
+          <GalleryFilter
+            images={fetchedPhotos}
+            setFilteredPhotos={setFilteredPhotos}
+            activeCamera={activeCamera}
+            setActiveCamera={setActiveCamera}
+            setActiveCameraName={setActiveCameraName}
+          />
+        </Stack>
+        <DateSummary
+          fetchedPhotos={fetchedPhotos}
+          filteredPhotos={filteredPhotos}
+          activeCamera={activeCamera}
+          activeCameraName={activeCameraName}
         />
-      </LocalizationProvider>
-      <GalleryFilter
-        images={fetchedPhotos}
-        setFilteredPhotos={setFilteredPhotos}
-        activeCamera={activeCamera}
-        setActiveCamera={setActiveCamera}
-        setActiveCameraName={setActiveCameraName}
-      />
-      <DateSummary
-        fetchedPhotos={fetchedPhotos}
-        filteredPhotos={filteredPhotos}
-        activeCamera={activeCamera}
-        activeCameraName={activeCameraName}
-      />
-      <motion.div layout className="photo__gallery__container">
-        <AnimatePresence>
-          {filteredPhotos.map((image, index) => {
-            return (
-              <PhotoGallery
-                image={image}
-                key={image.id}
-                index={index}
-                filteredPhotos={filteredPhotos}
-              />
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+        <motion.div layout className="photo__gallery__container">
+          <AnimatePresence>
+            {filteredPhotos.map((image, index) => {
+              return (
+                <PhotoGallery
+                  image={image}
+                  key={image.id}
+                  index={index}
+                  filteredPhotos={filteredPhotos}
+                />
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      </ThemeProvider>
     </div>
   );
 }

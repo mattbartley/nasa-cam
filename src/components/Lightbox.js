@@ -15,12 +15,6 @@ function Lightbox({
     }
   };
 
-  // useEffect(() => {
-  //   if (imageSize !== false) {
-  //     getImageSize(clickedImage.img_src);
-  //   }
-  // }, [clickedImage]);
-
   return (
     <motion.div>
       <div className="lightbox__overlay dismiss" onClick={handleClick}>

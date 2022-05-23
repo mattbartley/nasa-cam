@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
   const [solInput, setSolInput] = useState("");
@@ -6,16 +8,20 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
 
   const showBySol = (e) => {
     e.preventDefault();
-    const form = solForm.current;
-    setSolPicked(form.value);
-    console.log(form.value);
+    setSolPicked(solInput);
     setSolInput("");
   };
 
   return (
     <form>
-      <input
-        placeholder={fetchedPhotos != "" ? fetchedPhotos[0].sol : solPicked}
+      <TextField
+        id="outlined"
+        variant="outlined"
+        placeholder={
+          fetchedPhotos != ""
+            ? fetchedPhotos[0].sol.toString()
+            : solPicked.toString()
+        }
         ref={solForm}
         value={solInput}
         onChange={(e) => {
@@ -23,9 +29,16 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
           setSolInput(e.target.value);
         }}
       />
-      <button className="sol__btn" onClick={showBySol}>
+
+      <Button
+        sx={{ m: 1 }}
+        variant="outlined"
+        size="large"
+        onClick={showBySol}
+        type="submit"
+      >
         Show by Sol
-      </button>
+      </Button>
     </form>
   );
 }
