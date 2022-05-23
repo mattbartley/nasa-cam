@@ -13,7 +13,7 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
   };
 
   return (
-    <FormGroup row sx={{}}>
+    <FormGroup row>
       <TextField
         sx={{
           textTransform: "uppercase",

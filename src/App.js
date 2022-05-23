@@ -206,6 +206,7 @@ function App() {
 
         <Grid
           container
+          id="query__section"
           spacing={2}
           justifyContent="center"
           alignItems="center"
