@@ -4,7 +4,13 @@ import "../css/PhotoGallery.css";
 import Lightbox from "./Lightbox";
 import { Skeleton } from "@mui/material/";
 
-export default function PhotoGallery({ image, index, filteredPhotos }) {
+export default function PhotoGallery({
+  image,
+  index,
+  filteredPhotos,
+  imagesPerPage,
+  setImagesPerPage,
+}) {
   const smallExt = "_320.jpg";
   const mediumExt = "_800.jpg";
   const largeExt = "_1200.jpg";
@@ -30,14 +36,14 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
     };
   };
 
-  const handleClick = (image, index) => {
+  const handleClickedImage = (image, index) => {
     setCurrentIndex(index);
     setClickedImage(image);
     getImageSize(image.img_src);
     console.log(imageSize);
   };
 
-  const handleNext = () => {
+  const handleNextImage = () => {
     const totalImages = filteredPhotos.length;
     if (currentIndex + 1 >= totalImages) {
       setCurrentIndex(0);
@@ -50,7 +56,7 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
     setClickedImage(newImage);
     setCurrentIndex(newIndex);
   };
-  const handlePrevious = () => {
+  const handlePreviousImage = () => {
     const totalImages = filteredPhotos.length;
     if (currentIndex === 0) {
       setCurrentIndex(totalImages - 1);
@@ -79,7 +85,7 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
         <img
           className="gallery__image"
           id={image.id}
-          onClick={() => handleClick(image, index)}
+          onClick={() => handleClickedImage(image, index)}
           sizes={
             "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
           }
@@ -99,8 +105,8 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
       {clickedImage && (
         <Lightbox
           clickedImage={clickedImage}
-          handlePrevious={handlePrevious}
-          handleNext={handleNext}
+          handlePrevious={handlePreviousImage}
+          handleNext={handleNextImage}
           setClickedImage={setClickedImage}
           imageSize={imageSize}
         />

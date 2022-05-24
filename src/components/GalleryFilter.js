@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 
 export default function GalleryFilter({
   images,
-  setFilteredPhotos,
+  setCurrentFilteredImages,
   activeCamera,
   setActiveCamera,
   setActiveCameraName,
@@ -48,15 +48,17 @@ export default function GalleryFilter({
     const filtered = images.filter((photo) => photo.camera.id === activeCamera);
     {
       activeCamera === 0
-        ? setFilteredPhotos(images)
-        : setFilteredPhotos(filtered);
+        ? setCurrentFilteredImages(images)
+        : setCurrentFilteredImages(filtered);
     }
+    console.log("filtered: " + filtered.length);
   }, [activeCamera]);
 
-  const [age, setAge] = useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const cameraValue = "";
+  const handleCameraChange = (event) => {
+    console.log(event.target.value);
+    setActiveCamera(event.target.value[0]);
+    setActiveCameraName(event.target.value[1]);
   };
 
   return (
@@ -64,32 +66,21 @@ export default function GalleryFilter({
       <InputLabel>SELECT CAMERA</InputLabel>
       <Select
         sx={{ m: 0, minWidth: 210 }}
+        value={cameraValue}
+        onChange={handleCameraChange}
         id="camera__select"
-        value={age}
-        onChange={handleChange}
         label="SELECT CAMERA"
         autoWidth
       >
-        <MenuItem
-          onClick={() => {
-            setActiveCamera(0);
-            setActiveCameraName("All Cameras");
-          }}
-        >
-          <em>ALL CAMERAS</em>
+        <MenuItem value={[0, "All Cameras"]}>
+          <em>All Cameras</em>
         </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);
-          const cameraName = availableCameras[camera];
+          const cameraFullName = availableCameras[camera];
           return (
-            <MenuItem
-              key={camera}
-              onClick={() => {
-                setActiveCamera(cameraID);
-                setActiveCameraName(cameraName);
-              }}
-            >
-              {cameraName}
+            <MenuItem key={camera} value={[cameraID, cameraFullName]}>
+              {cameraFullName}
             </MenuItem>
           );
         })}

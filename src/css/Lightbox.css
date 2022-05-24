@@ -1,6 +1,6 @@
 .lightbox__overlay {
   display: flex;
-  background-color: rgba(0, 0, 0, 85%);
+  background-color: rgb(2 19 41 / 85%);
   position: fixed;
   top: 0;
   left: 0;
@@ -14,11 +14,13 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .lightbox__image {
   padding: 1rem;
+  max-height: 55vw;
+  max-width: 95vw;
 }
 a {
   text-decoration: none;
@@ -45,6 +47,8 @@ button {
 .lightbox__card {
   text-align: center;
   color: white;
+  position: absolute;
+  bottom: 2rem;
 }
 .lightbox__card h2 {
   font-size: 1.6rem;

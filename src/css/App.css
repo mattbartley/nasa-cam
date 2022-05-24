@@ -1,12 +1,13 @@
 :root {
-  --main-bg-color: #17141c;
+  --main-bg-color: #182a34;
 }
 html {
   font-size: min(max(15px, 4vw), 20px);
   font-size: calc(15px + (20 - 15) * ((100vw - 300px) / (1600 - 300)));
 }
 .app {
-  background-color: var(--main-bg-color);
+  /* background-color: var(--main-bg-color); */
+  background: radial-gradient(#052832, rgb(0 29 39));
 }
 
 .search__intro {
