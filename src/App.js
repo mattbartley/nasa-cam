@@ -5,7 +5,8 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, Container, Box, Tooltip } from "@mui/material/";
+import { Grid, Container, Box, Tooltip, Fab, Fade } from "@mui/material/";
+import GridViewIcon from "@mui/icons-material/GridView";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
@@ -13,6 +14,7 @@ import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
 import HomeScreen from "./components/HomeScreen";
+import ScrollToTop from "./components/ScrollToTop";
 
 import moment from "moment";
 
@@ -29,6 +31,33 @@ function App() {
     },
     palette: {
       mode: "dark",
+      primary: {
+        main: "#519591",
+      },
+      secondary: {
+        main: "#334756",
+      },
+      focus: {
+        main: "#519591",
+      },
+      info: {
+        main: "#dd7e7e",
+      },
+      background: {
+        paper: "#101824",
+        default: "#101824",
+      },
+      action: {
+        active: "#334756",
+        hover: "#5195914f",
+        hoverOpacity: "0.2",
+        selected: "#db6d35",
+        selectedOpacity: ".16",
+        disabled: "rgb(82 82 82)",
+        disabledBackground: "rgb(63 63 63 / 63%)",
+        focus: "#db6d35",
+        focusOpacity: "0",
+      },
     },
     typography: {
       fontFamily: [
@@ -43,12 +72,6 @@ function App() {
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
       ].join(","),
-    },
-    primary: {
-      color: "#5ccfc4",
-    },
-    focused: {
-      color: "#5ccfc4",
     },
   });
   // Refs to prevent redundant API fetches on first load
@@ -194,20 +217,23 @@ function App() {
         >
           <Box
             sx={{
-              color: "#ccc",
+              color: "secondary",
               fontSize: ".85rem",
               paddingLeft: 2,
               paddingRight: 2,
               m: 1,
               borderBottom: 1,
-              borderColor: "rgba(255, 355, 255, 0.23)",
+              borderColor: "secondary",
               maxWidth: 40 / 100,
               alignmentBaseline: "bottom",
             }}
           >
             <p className="search__intro">
               Search by Earth Date or <em>Sol</em>
-              <Tooltip title="A Sol is one solar day on Mars. Sol 0 is the first day for Perseverance on Mars.">
+              <Tooltip
+                title="A Sol is one solar day on Mars. Sol 0 is the first day for Perseverance on Mars."
+                color="info"
+              >
                 <HelpIcon
                   sx={{ fontSize: "1rem", textAlign: "right", marginLeft: 1 }}
                 />
@@ -281,13 +307,26 @@ function App() {
             })}
           </AnimatePresence>
         </motion.div>
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: 1,
+            paddingBottom: 5,
+          }}
+        >
+          <Fab
+            disabled={imagesPerPage >= fetchedPhotos?.length ? true : false}
+            sx={{}}
+            variant="extended"
+            onClick={handleLoadMore}
+          >
+            Load More
+            <GridViewIcon sx={{ ml: 1 }} />
+          </Fab>
+        </Container>
+        <ScrollToTop />
       </ThemeProvider>
-      <button
-        onClick={handleLoadMore}
-        disabled={imagesPerPage >= fetchedPhotos.length ? "disabled" : ""}
-      >
-        Load More
-      </button>
     </div>
   );
 }

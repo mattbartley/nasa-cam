@@ -73,7 +73,7 @@ export default function GalleryFilter({
         autoWidth
       >
         <MenuItem value={[0, "All Cameras"]}>
-          <em>ALL CAMERAS</em>
+          <em>All Cameras</em>
         </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);

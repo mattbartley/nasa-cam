@@ -1,0 +1,18 @@
+.scroll__button {
+  display: flex;
+  transition: all 0.4s;
+  position: fixed;
+  z-index: 200;
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.showBtn {
+  position: fixed;
+  opacity: 1;
+  z-index: 20;
+}
+
+.hideBtn {
+  opacity: 0;
+}
