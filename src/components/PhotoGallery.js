@@ -4,13 +4,7 @@ import "../css/PhotoGallery.css";
 import Lightbox from "./Lightbox";
 import { Skeleton } from "@mui/material/";
 
-export default function PhotoGallery({
-  image,
-  index,
-  filteredPhotos,
-  imagesPerPage,
-  setImagesPerPage,
-}) {
+export default function PhotoGallery({ image, index, filteredPhotos }) {
   const smallExt = "_320.jpg";
   const mediumExt = "_800.jpg";
   const largeExt = "_1200.jpg";
@@ -100,6 +94,7 @@ export default function PhotoGallery({
             " - sol: " +
             image.sol
           }
+          loading={"lazy"}
         />
       )}
       {clickedImage && (

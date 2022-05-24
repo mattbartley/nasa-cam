@@ -6,11 +6,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function GalleryFilter({
-  images,
+  currentImages,
   setCurrentFilteredImages,
   activeCamera,
   setActiveCamera,
   setActiveCameraName,
+  setImagesPerPage,
+  fetchedPhotos,
+  setNumberOfCams,
 }) {
   const [availableCameras, setAvailableCameras] = useState([]);
 
@@ -19,7 +22,7 @@ export default function GalleryFilter({
     const cameraArr = [];
     let loading = true;
     if (loading) {
-      images.map((cameras) => {
+      fetchedPhotos.map((cameras) => {
         cameraArr.push({
           camera: cameras.camera.id,
           full_name: cameras.camera.full_name,
@@ -34,7 +37,6 @@ export default function GalleryFilter({
       const cameraHolderArr = uniqueCamerasIds.map((el, i) => {
         return [uniqueCamerasIds[i], uniqueCamerasNames[i]];
       });
-
       const uniqueCameras = Object.fromEntries(cameraHolderArr);
       setAvailableCameras(uniqueCameras);
       loading = false;
@@ -42,16 +44,20 @@ export default function GalleryFilter({
   };
   useEffect(() => {
     getCameras();
-  }, [images]);
+  }, [fetchedPhotos]);
 
   useEffect(() => {
-    const filtered = images.filter((photo) => photo.camera.id === activeCamera);
+    const filtered = fetchedPhotos.filter(
+      (photo) => photo.camera.id === activeCamera
+    );
     {
       activeCamera === 0
-        ? setCurrentFilteredImages(images)
+        ? setCurrentFilteredImages(fetchedPhotos)
         : setCurrentFilteredImages(filtered);
     }
+    //console.log(imagesPerPage + " galfilter");
     console.log("filtered: " + filtered.length);
+    setNumberOfCams(filtered.length);
   }, [activeCamera]);
 
   const cameraValue = "";
