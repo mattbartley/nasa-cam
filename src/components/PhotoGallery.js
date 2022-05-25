@@ -1,23 +1,14 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import ImageModal from "./ImageModal";
 import "../css/PhotoGallery.css";
-import Lightbox from "./Lightbox";
-import { Skeleton } from "@mui/material/";
 
-export default function PhotoGallery({ image, index, filteredPhotos }) {
-  const smallExt = "_320.jpg";
-  const mediumExt = "_800.jpg";
-  const largeExt = "_1200.jpg";
-  const fullExt = ".png";
-
-  let imgSrc = image.img_src;
-  let imgSrcBase = imgSrc.substring(0, imgSrc.length - 9);
-
-  let smallSrc = imgSrcBase + smallExt;
-  let mediumSrc = imgSrcBase + mediumExt;
-  let largeSrc = imgSrcBase + largeExt;
-  let fullSrc = imgSrcBase + fullExt;
-
+export default function PhotoGallery({
+  filteredPhotos,
+  selectedImage,
+  setSelectedImage,
+  currentFilteredImages,
+}) {
   const [clickedImage, setClickedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [imageSize, setImageSize] = useState();
@@ -33,8 +24,9 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
   const handleClickedImage = (image, index) => {
     setCurrentIndex(index);
     setClickedImage(image);
+    setSelectedImage(image);
     getImageSize(image.img_src);
-    console.log(imageSize);
+    console.log(index);
   };
 
   const handleNextImage = () => {
@@ -65,47 +57,64 @@ export default function PhotoGallery({ image, index, filteredPhotos }) {
   };
 
   return (
-    <motion.div
-      layout
-      transition={{ type: "spring", mass: 0.25 }}
-      initial={{ y: 60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -60, opacity: 0 }}
-      key={index}
-    >
-      {!image ? (
-        <Skeleton variant="rectangular" width={210} height={118} />
-      ) : (
-        <img
-          className="gallery__image"
-          id={image.id}
-          onClick={() => handleClickedImage(image, index)}
-          sizes={
-            "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
-          }
-          srcSet={`${smallSrc} 320w, ${mediumSrc} 800w, ${largeSrc} 1200w`}
-          alt={
-            "Nasa Mars Photo id: " +
-            image.id +
-            " using camera: " +
-            image.camera.full_name +
-            ". Taken on " +
-            image.earth_date +
-            " - sol: " +
-            image.sol
-          }
-          loading={"lazy"}
-        />
-      )}
-      {clickedImage && (
-        <Lightbox
-          clickedImage={clickedImage}
-          handlePrevious={handlePreviousImage}
-          handleNext={handleNextImage}
-          setClickedImage={setClickedImage}
-          imageSize={imageSize}
-        />
-      )}
-    </motion.div>
+    <AnimatePresence>
+      <div className="photo__gallery__container">
+        {currentFilteredImages &&
+          currentFilteredImages.map((image, index) => {
+            const smallExt = "_320.jpg";
+            const mediumExt = "_800.jpg";
+            const largeExt = "_1200.jpg";
+            const fullExt = ".png";
+
+            let imgSrc = image.img_src;
+            let imgSrcBase = imgSrc.substring(0, imgSrc.length - 9);
+
+            let smallSrc = imgSrcBase + smallExt;
+            let mediumSrc = imgSrcBase + mediumExt;
+            let largeSrc = imgSrcBase + largeExt;
+            let fullSrc = imgSrcBase + fullExt;
+            return (
+              <motion.div
+                layout
+                whileHover={{ scale: 0.98 }}
+                className="image__wrap"
+                key={image.id}
+                onClick={() => handleClickedImage(image, index)}
+              >
+                <motion.img
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="gallery__image"
+                  id={image.id}
+                  sizes={
+                    "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
+                  }
+                  srcSet={`${smallSrc} 320w, ${mediumSrc} 800w, ${largeSrc} 1200w`}
+                  alt={
+                    "Nasa Mars Photo id: " +
+                    image.id +
+                    " using camera: " +
+                    image.camera.full_name +
+                    ". Taken on " +
+                    image.earth_date +
+                    " - sol: " +
+                    image.sol
+                  }
+                  loading={"lazy"}
+                />
+              </motion.div>
+            );
+          })}
+        <AnimatePresence>
+          {selectedImage && (
+            <ImageModal
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+            />
+          )}
+        </AnimatePresence>
+      </div>
+    </AnimatePresence>
   );
 }

@@ -17,6 +17,7 @@ import HomeScreen from "./components/HomeScreen";
 import ScrollToTop from "./components/ScrollToTop";
 
 import moment from "moment";
+import ImageModal from "./components/ImageModal";
 
 function App() {
   const darkTheme = createTheme({
@@ -93,7 +94,7 @@ function App() {
   // ↓ Photos filtered by selected activeCamera
   const [filteredPhotos, setFilteredPhotos] = useState([]);
   // ↓ Photo selected by onClick
-  const [selectedImage, setSelectedImage] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // ↓ API URLs
   const apiManifestUrl =
@@ -104,8 +105,6 @@ function App() {
 
   const apiSolBase =
     "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
-
-  const lightboxContainer = useRef(null);
 
   // Fetches all photos by given Earth date
   // ?? Move to component ??
@@ -316,21 +315,14 @@ function App() {
           activeCameraName={activeCameraName}
           numberOfCams={numberOfCams}
         />
-        <motion.div layout className="photo__gallery__container">
-          <AnimatePresence>
-            {currentFilteredImages.map((image, index) => {
-              return (
-                <PhotoGallery
-                  image={image}
-                  key={image.id}
-                  index={index}
-                  filteredPhotos={filteredPhotos}
-                />
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+        <PhotoGallery
+          currentFilteredImages={currentFilteredImages}
+          filteredPhotos={filteredPhotos}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
         <Container
+          className="load__more"
           sx={{
             display: "flex",
             justifyContent: "center",
