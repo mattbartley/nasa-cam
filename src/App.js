@@ -17,6 +17,7 @@ import HomeScreen from "./components/HomeScreen";
 import ScrollToTop from "./components/ScrollToTop";
 
 import moment from "moment";
+import ImageModal from "./components/ImageModal";
 
 function App() {
   const darkTheme = createTheme({
@@ -93,7 +94,7 @@ function App() {
   // ↓ Photos filtered by selected activeCamera
   const [filteredPhotos, setFilteredPhotos] = useState([]);
   // ↓ Photo selected by onClick
-  const [selectedImage, setSelectedImage] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // ↓ API URLs
   const apiManifestUrl =
@@ -104,8 +105,6 @@ function App() {
 
   const apiSolBase =
     "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
-
-  const lightboxContainer = useRef(null);
 
   // Fetches all photos by given Earth date
   // ?? Move to component ??
@@ -181,22 +180,43 @@ function App() {
       );
     } else console.log("manifest loaded: " + isManifestLoaded.current);
   }, [manifestData]);
-
+  const [numberOfCams, setNumberOfCams] = useState();
   //Load 25 images at a time
   const [imagesPerPage, setImagesPerPage] = useState(0);
   const [currentImages, setCurrentImages] = useState([]);
   const [currentFilteredImages, setCurrentFilteredImages] = useState([]);
 
   useEffect(() => {
-    setCurrentImages(fetchedPhotos.slice(0, imagesPerPage));
-    setCurrentFilteredImages(fetchedPhotos.slice(0, imagesPerPage));
-    console.log("App currentimages: " + currentImages.length);
-    console.log("App filteredimages: " + currentFilteredImages.length);
+    if (activeCamera === 0) {
+      setCurrentImages(fetchedPhotos.slice(0, imagesPerPage));
+      setCurrentFilteredImages(fetchedPhotos.slice(0, imagesPerPage));
+    } else {
+      setCurrentFilteredImages(currentFilteredImages.slice(0, imagesPerPage));
+    }
   }, [imagesPerPage, fetchedPhotos]);
 
-  const handleLoadMore = () => {
-    setImagesPerPage(imagesPerPage + 25);
-    return;
+  const [loadMore, handleLoadMore] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", calcLoadMore);
+    if (loadMore) {
+      console.log(loadMore);
+      setImagesPerPage(imagesPerPage + 25);
+      console.log(imagesPerPage + 25);
+      console.log(currentFilteredImages);
+    }
+  }, [loadMore]);
+
+  const calcLoadMore = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 200
+    ) {
+      handleLoadMore(true);
+    } else {
+      handleLoadMore(false);
+    }
+    return () => window.removeEventListener("scroll", calcLoadMore);
   };
 
   //Datepicker takes function that retures true or false to disable any dates
@@ -277,11 +297,14 @@ function App() {
 
           <Grid item xs="auto">
             <GalleryFilter
-              images={currentImages}
+              currentImages={currentImages}
               setCurrentFilteredImages={setCurrentFilteredImages}
               activeCamera={activeCamera}
               setActiveCamera={setActiveCamera}
               setActiveCameraName={setActiveCameraName}
+              setImagesPerPage={setImagesPerPage}
+              fetchedPhotos={fetchedPhotos}
+              setNumberOfCams={setNumberOfCams}
             />
           </Grid>
         </Grid>
@@ -290,24 +313,16 @@ function App() {
           filteredPhotos={filteredPhotos}
           activeCamera={activeCamera}
           activeCameraName={activeCameraName}
+          numberOfCams={numberOfCams}
         />
-        <motion.div layout className="photo__gallery__container">
-          <AnimatePresence>
-            {currentFilteredImages.map((image, index) => {
-              return (
-                <PhotoGallery
-                  image={image}
-                  key={image.id}
-                  index={index}
-                  filteredPhotos={filteredPhotos}
-                  imagesPerPage={imagesPerPage}
-                  setImagesPerPage={setImagesPerPage}
-                />
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+        <PhotoGallery
+          currentFilteredImages={currentFilteredImages}
+          filteredPhotos={filteredPhotos}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
         <Container
+          className="load__more"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -316,7 +331,9 @@ function App() {
           }}
         >
           <Fab
-            disabled={imagesPerPage >= fetchedPhotos?.length ? true : false}
+            disabled={
+              imagesPerPage >= currentFilteredImages?.length ? true : false
+            }
             sx={{}}
             variant="extended"
             onClick={handleLoadMore}

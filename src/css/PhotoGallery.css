@@ -1,11 +1,26 @@
 .photo__gallery__container {
+  margin: 1vh 3vw;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 0.6rem;
-  grid-row-gap: 0.6rem;
-
+  grid-gap: 0.6rem;
   line-height: 0;
-  padding: 0 0.6rem;
+}
+
+.image__wrap {
+  overflow: hidden;
+  height: 0;
+  padding: 35% 0;
+  position: relative;
+  opacity: 1;
+}
+
+.image__wrap img {
+  min-width: 20%;
+  min-height: 100;
+  max-width: 120%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .gallery__image {
