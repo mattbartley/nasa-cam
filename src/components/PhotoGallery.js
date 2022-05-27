@@ -4,57 +4,36 @@ import ImageModal from "./ImageModal";
 import "../css/PhotoGallery.css";
 
 export default function PhotoGallery({
-  filteredPhotos,
   selectedImage,
   setSelectedImage,
   currentFilteredImages,
+  numberOfFilteredPhotos,
+  fetchedPhotos,
 }) {
-  const [clickedImage, setClickedImage] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(null);
+  //Get image dimensions from source
   const [imageSize, setImageSize] = useState();
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [originalIndex, setOriginalIndex] = useState();
+  const getOriginalIndex = (image) => {
+    setOriginalIndex(fetchedPhotos.map((ind) => ind.id).indexOf(image.id));
+  };
 
   const getImageSize = (url) => {
     let img = new Image();
-    img.src = url;
+    img.src = url.substring(0, url.length - 9).concat(".png");
     img.onload = () => {
       setImageSize([img.width, img.height]);
     };
   };
 
   const handleClickedImage = (image, index) => {
-    setCurrentIndex(index);
-    setClickedImage(image);
     setSelectedImage(image);
+    setCurrentIndex(index);
     getImageSize(image.img_src);
-    console.log(index);
+    getOriginalIndex(image);
   };
 
-  const handleNextImage = () => {
-    const totalImages = filteredPhotos.length;
-    if (currentIndex + 1 >= totalImages) {
-      setCurrentIndex(0);
-      const newSrc = filteredPhotos[0];
-      setClickedImage(newSrc);
-      return;
-    }
-    const newIndex = currentIndex + 1;
-    const newImage = filteredPhotos[newIndex];
-    setClickedImage(newImage);
-    setCurrentIndex(newIndex);
-  };
-  const handlePreviousImage = () => {
-    const totalImages = filteredPhotos.length;
-    if (currentIndex === 0) {
-      setCurrentIndex(totalImages - 1);
-      const newSrc = filteredPhotos[totalImages - 1];
-      setClickedImage(newSrc);
-      return;
-    }
-    const newIndex = currentIndex - 1;
-    const newImage = filteredPhotos[newIndex];
-    setClickedImage(newImage);
-    setCurrentIndex(newIndex);
-  };
+  const totalImages = fetchedPhotos.length;
 
   return (
     <AnimatePresence>
@@ -73,6 +52,7 @@ export default function PhotoGallery({
             let mediumSrc = imgSrcBase + mediumExt;
             let largeSrc = imgSrcBase + largeExt;
             let fullSrc = imgSrcBase + fullExt;
+
             return (
               <motion.div
                 layout
@@ -111,6 +91,14 @@ export default function PhotoGallery({
             <ImageModal
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage}
+              currentFilteredImages={currentFilteredImages}
+              totalImages={totalImages}
+              setCurrentIndex={setCurrentIndex}
+              currentIndex={currentIndex}
+              imageSize={imageSize}
+              numberOfFilteredPhotos={numberOfFilteredPhotos}
+              originalIndex={originalIndex}
+              getOriginalInde={getOriginalIndex}
             />
           )}
         </AnimatePresence>

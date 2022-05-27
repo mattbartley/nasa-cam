@@ -7,13 +7,13 @@ export default function DateSummary({
   filteredPhotos,
   activeCamera,
   activeCameraName,
-  numberOfCams,
+  numberOfFilteredPhotos,
 }) {
   let numberOfImages = 0;
   if (activeCamera === 0) {
     numberOfImages = fetchedPhotos.length;
   } else {
-    numberOfImages = numberOfCams;
+    numberOfImages = numberOfFilteredPhotos;
   }
   // Conditionally render facts from the selected date's mission (Number of photos, camera name, Earth Date & Sol, etc)
   // Converts API-provided YYYY-MM-DD date format for redability (i.e. Jan 1st, 2022) with moment.js
