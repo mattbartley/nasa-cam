@@ -7,10 +7,17 @@ export default function PhotoGallery({
   selectedImage,
   setSelectedImage,
   currentFilteredImages,
+  numberOfFilteredPhotos,
+  fetchedPhotos,
 }) {
   //Get image dimensions from source
   const [imageSize, setImageSize] = useState();
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [originalIndex, setOriginalIndex] = useState();
+  const getOriginalIndex = (image) => {
+    setOriginalIndex(fetchedPhotos.map((ind) => ind.id).indexOf(image.id));
+  };
+
   const getImageSize = (url) => {
     let img = new Image();
     img.src = url.substring(0, url.length - 9).concat(".png");
@@ -23,10 +30,10 @@ export default function PhotoGallery({
     setSelectedImage(image);
     setCurrentIndex(index);
     getImageSize(image.img_src);
-    console.log(index);
+    getOriginalIndex(image);
   };
-  console.log(currentFilteredImages);
-  const totalImages = currentFilteredImages.length;
+
+  const totalImages = fetchedPhotos.length;
 
   return (
     <AnimatePresence>
@@ -45,6 +52,7 @@ export default function PhotoGallery({
             let mediumSrc = imgSrcBase + mediumExt;
             let largeSrc = imgSrcBase + largeExt;
             let fullSrc = imgSrcBase + fullExt;
+
             return (
               <motion.div
                 layout
@@ -88,6 +96,9 @@ export default function PhotoGallery({
               setCurrentIndex={setCurrentIndex}
               currentIndex={currentIndex}
               imageSize={imageSize}
+              numberOfFilteredPhotos={numberOfFilteredPhotos}
+              originalIndex={originalIndex}
+              getOriginalInde={getOriginalIndex}
             />
           )}
         </AnimatePresence>

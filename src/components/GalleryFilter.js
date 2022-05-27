@@ -6,14 +6,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function GalleryFilter({
-  currentImages,
   setCurrentFilteredImages,
   activeCamera,
   setActiveCamera,
   setActiveCameraName,
-  setImagesPerPage,
   fetchedPhotos,
-  setNumberOfCams,
+  setNumberOfFilteredPhotos,
 }) {
   const [availableCameras, setAvailableCameras] = useState([]);
 
@@ -55,14 +53,11 @@ export default function GalleryFilter({
         ? setCurrentFilteredImages(fetchedPhotos)
         : setCurrentFilteredImages(filtered);
     }
-    //console.log(imagesPerPage + " galfilter");
-    console.log("filtered: " + filtered.length);
-    setNumberOfCams(filtered.length);
+    setNumberOfFilteredPhotos(filtered.length);
   }, [activeCamera]);
 
   const cameraValue = "";
   const handleCameraChange = (event) => {
-    console.log(event.target.value);
     setActiveCamera(event.target.value[0]);
     setActiveCameraName(event.target.value[1]);
   };

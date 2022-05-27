@@ -37,7 +37,7 @@
 }
 
 .modal__details a:hover {
-  opacity: 0.9;
+  background: #5195914f;
   transition: all 0.3s;
 }
 .modal__open_icon {
@@ -45,13 +45,13 @@
 }
 .details__card {
   margin-top: 1.2rem;
-  border-radius: 6px;
+  border-radius: 4px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 1rem;
   grid-gap: 0.8rem;
-  background: linear-gradient(135deg, #11363fc7, rgb(0 29 39 / 30%));
-  backdrop-filter: blur(7px);
+  background: linear-gradient(335deg, #9bd4e733, rgb(96 186 205 / 30%));
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border: 1px solid #355a5a80;
   box-shadow: 0px 0px 11px 1px #0000003d;
@@ -66,6 +66,9 @@
 .detail__icon {
   vertical-align: middle;
   margin-right: 0.2rem;
+  font-size: 20px;
+  color: #647b7a;
+  line-height: 1;
 }
 
 .description__title {

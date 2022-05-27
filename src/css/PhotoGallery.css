@@ -17,15 +17,15 @@
   width: fit-content;
   border-radius: 4px;
   color: #ffffff;
-  border: solid #ffffff 1px;
+  border: solid #647b7a 1px;
   cursor: pointer;
   font-size: 0.8rem;
   margin: 0 1rem;
   transition: all 0.3s;
 }
 .modal__button:hover {
-  background: #ffffff10;
-  border: solid green 1px;
+  background: #ffffff2d;
+  border: solid #5195914f 1px;
 }
 .nav__icon {
   font-size: 20px;

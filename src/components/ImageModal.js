@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../css/ImageModal.css";
 
@@ -78,7 +77,7 @@ export default function ImageModal({
           >
             <span className="material-icons md-48 nav__icon">west</span>
           </div>
-          {currentIndex + 1 + " / " + totalImages}
+          {currentIndex + 1 + " / " + currentFilteredImages.length}
           <div className="modal__button next__btn" onClick={handleNextImage}>
             <span className="material-icons md-48 nav__icon">east</span>
           </div>
@@ -144,10 +143,7 @@ export default function ImageModal({
                 <span className="description__title">Image ID: </span>
                 {selectedImage.id}
               </p>
-              <p className="detail__text">
-                <span className="description__title">Position in Set: </span>
-                {currentIndex + 1 + " / " + totalImages}
-              </p>
+
               <p className="detail__text">
                 <span className="description__title">Captured by: </span>
                 {selectedImage.rover.name}

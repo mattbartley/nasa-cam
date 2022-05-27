@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Grid, Container, Box, Tooltip, Fab, Fade } from "@mui/material/";
-import GridViewIcon from "@mui/icons-material/GridView";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
@@ -18,6 +16,7 @@ import moment from "moment";
 import "./css/App.css";
 
 function App() {
+  // MUI custom palette set up
   const darkTheme = createTheme({
     breakpoints: {
       values: {
@@ -89,6 +88,7 @@ function App() {
   // ↓ Currently selected camera filter for photo gallery - 0 state returns all - real cameras have unique ids
   const [activeCamera, setActiveCamera] = useState(0);
   const [activeCameraName, setActiveCameraName] = useState("");
+  const [numberOfFilteredPhotos, setNumberOfFilteredPhotos] = useState();
   // ↓ Photos filtered by selected activeCamera
   const [filteredPhotos, setFilteredPhotos] = useState([]);
   // ↓ Photo selected by onClick
@@ -105,7 +105,6 @@ function App() {
     "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
 
   // Fetches all photos by given Earth date
-  // ?? Move to component ??
   const getPhotosByDate = async (date) => {
     setImagesPerPage(25);
     if (isManifestReadyDate.current === true) {
@@ -113,6 +112,7 @@ function App() {
         const response = await (await fetch(apiDateBase + date)).json();
         setFetchedPhotos(response.photos);
         setFilteredPhotos(response.photos);
+        setNumberOfFilteredPhotos(response.photos.length);
         return response;
       }
       if (!date) {
@@ -124,7 +124,6 @@ function App() {
   };
 
   // Fetches all photos by given Sol
-  // ?? Move to component ??
   const getPhotosBySol = async (sol) => {
     setImagesPerPage(25);
     if (isManifestReadySol.current === true) {
@@ -145,7 +144,6 @@ function App() {
   // 1. - Fetches mission manifest to get latest date photos were provided
   // 2. - Uses that date to call getPhotosByDate(date) to display the most recent images
   // 3. - Uses date for setDatePicked(date) to update the Datepicker placeholder
-  // ?? Move to component ??
 
   useEffect(() => {
     if (isManifestLoaded.current === false) {
@@ -159,6 +157,7 @@ function App() {
         });
     }
   }, []);
+
   useEffect(() => {
     getPhotosByDate(datePicked);
   }, [datePicked]);
@@ -166,6 +165,7 @@ function App() {
   useEffect(() => {
     getPhotosBySol(solPicked);
   }, [solPicked]);
+
   //Get all earth dates from manifest that had photos to use for datepicker
   useEffect(() => {
     if (isManifestLoaded.current === true) {
@@ -176,7 +176,7 @@ function App() {
       );
     } else console.log("manifest loaded: " + isManifestLoaded.current);
   }, [manifestData]);
-  const [numberOfCams, setNumberOfCams] = useState();
+
   //Load 25 images at a time
   const [imagesPerPage, setImagesPerPage] = useState(0);
   const [currentImages, setCurrentImages] = useState([]);
@@ -191,15 +191,13 @@ function App() {
     }
   }, [imagesPerPage, fetchedPhotos]);
 
+  //Infinite Scroll loading for gallery
   const [loadMore, handleLoadMore] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", calcLoadMore);
     if (loadMore) {
-      console.log(loadMore);
       setImagesPerPage(imagesPerPage + 25);
-      console.log(imagesPerPage + 25);
-      console.log(currentFilteredImages);
     }
   }, [loadMore]);
 
@@ -215,7 +213,7 @@ function App() {
     return () => window.removeEventListener("scroll", calcLoadMore);
   };
 
-  //Datepicker takes function that retures true or false to disable any dates
+  //The MUI Datepicker takes function that retures true or false to disable any dates
   //If it's not in the manifestDates, return true to disable it
   const getDisabledDates = (date) => {
     return !manifestDates.includes(date.toISOString().split("T")[0]);
@@ -300,7 +298,8 @@ function App() {
               setActiveCameraName={setActiveCameraName}
               setImagesPerPage={setImagesPerPage}
               fetchedPhotos={fetchedPhotos}
-              setNumberOfCams={setNumberOfCams}
+              numberOfFilteredPhotos={numberOfFilteredPhotos}
+              setNumberOfFilteredPhotos={setNumberOfFilteredPhotos}
             />
           </Grid>
         </Grid>
@@ -309,13 +308,14 @@ function App() {
           filteredPhotos={filteredPhotos}
           activeCamera={activeCamera}
           activeCameraName={activeCameraName}
-          numberOfCams={numberOfCams}
+          numberOfFilteredPhotos={numberOfFilteredPhotos}
         />
         <PhotoGallery
           currentFilteredImages={currentFilteredImages}
-          filteredPhotos={filteredPhotos}
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
+          fetchedPhotos={fetchedPhotos}
+          numberOfFilteredPhotos={numberOfFilteredPhotos}
         />
 
         <ScrollToTop />
