@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./css/App.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -15,9 +14,8 @@ import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
 import HomeScreen from "./components/HomeScreen";
 import ScrollToTop from "./components/ScrollToTop";
-
 import moment from "moment";
-import ImageModal from "./components/ImageModal";
+import "./css/App.css";
 
 function App() {
   const darkTheme = createTheme({
@@ -161,7 +159,6 @@ function App() {
         });
     }
   }, []);
-
   useEffect(() => {
     getPhotosByDate(datePicked);
   }, [datePicked]);
@@ -169,7 +166,6 @@ function App() {
   useEffect(() => {
     getPhotosBySol(solPicked);
   }, [solPicked]);
-
   //Get all earth dates from manifest that had photos to use for datepicker
   useEffect(() => {
     if (isManifestLoaded.current === true) {
@@ -321,27 +317,7 @@ function App() {
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
         />
-        <Container
-          className="load__more"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: 1,
-            paddingBottom: 5,
-          }}
-        >
-          <Fab
-            disabled={
-              imagesPerPage >= currentFilteredImages?.length ? true : false
-            }
-            sx={{}}
-            variant="extended"
-            onClick={handleLoadMore}
-          >
-            Load More
-            <GridViewIcon sx={{ ml: 1 }} />
-          </Fab>
-        </Container>
+
         <ScrollToTop />
       </ThemeProvider>
     </div>
