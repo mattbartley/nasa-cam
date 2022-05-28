@@ -42,6 +42,7 @@
 }
 .modal__open_icon {
   font-size: 16px !important;
+  color: #ffa7bb;
 }
 .details__card {
   margin-top: 1.2rem;
@@ -75,10 +76,12 @@
   text-transform: uppercase;
   font-weight: 600;
   font-size: 0.8rem;
+  color: #beeeeb;
 }
 
 .detail__text {
   vertical-align: middle;
   font-size: 0.9rem;
+  color: #fdd79f;
   margin: 0.15rem;
 }

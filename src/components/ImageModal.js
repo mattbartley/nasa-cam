@@ -17,7 +17,7 @@ export default function ImageModal({
   };
 
   const handleNextImage = () => {
-    if (currentIndex + 1 >= totalImages) {
+    if (currentIndex + 1 === totalImages) {
       setCurrentIndex(0);
       const newSrc = currentFilteredImages[0];
       setSelectedImage(newSrc);

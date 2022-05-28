@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, FormGroup, TextField, Box } from "@mui/material/";
+import { Button, FormGroup, TextField } from "@mui/material/";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {

@@ -16,10 +16,9 @@ const ScrollToTop = () => {
   }, []);
 
   const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    document
+      .getElementById("scroll__stop")
+      .scrollIntoView({ behavior: "smooth" });
   };
 
   return (

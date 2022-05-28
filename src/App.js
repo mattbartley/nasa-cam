@@ -11,9 +11,11 @@ import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
 import HomeScreen from "./components/HomeScreen";
+import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import moment from "moment";
 import "./css/App.css";
+import Stats from "./components/Stats";
 
 function App() {
   // MUI custom palette set up
@@ -223,7 +225,9 @@ function App() {
     <div className="app">
       <ThemeProvider theme={darkTheme}>
         <HomeScreen />
+        <Stats manifestData={manifestData} />
         <Container
+          id="scroll__down"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -237,8 +241,7 @@ function App() {
               paddingRight: 2,
               m: 1,
               borderBottom: 1,
-              borderColor: "secondary",
-              maxWidth: 40 / 100,
+              borderColor: "#ffffff1a",
               alignmentBaseline: "bottom",
             }}
           >
@@ -249,7 +252,12 @@ function App() {
                 color="info"
               >
                 <HelpIcon
-                  sx={{ fontSize: "1rem", textAlign: "right", marginLeft: 1 }}
+                  sx={{
+                    fontSize: "1rem",
+                    textAlign: "right",
+                    marginLeft: 1,
+                    color: "#ffffff40",
+                  }}
                 />
               </Tooltip>
             </p>
@@ -317,7 +325,7 @@ function App() {
           fetchedPhotos={fetchedPhotos}
           numberOfFilteredPhotos={numberOfFilteredPhotos}
         />
-
+        <Footer />
         <ScrollToTop />
       </ThemeProvider>
     </div>
