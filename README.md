@@ -1,11 +1,11 @@
 <div id="top"></div>
 
-<!-- PROJECT SHIELDS 
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+
+<!-- PROJECT SHIELDS
 [![MIT License][license-shield]][license-url]
 -->
 
@@ -30,16 +30,15 @@ This site is designed to collect and display images captured by NASA's Persevera
 
 ## Roadmap
 
-- [ ] Finalize core functionality
-  - [ ] Photo Gallery full-size image view (lightbox essentially)
-  - [ ] Photo details component
-  - [ ] Optimize API requests
-- [ ] Stylize entire project
-- [ ] Add legacy rovers (Curiosity, Opportunity, and Spirit)
+- [x] Finalize core functionality
+  - [x] Optimize API requests
+- [x] Essential Styling
+  - [ ] Mobile improvements
+  - [ ] Accessability testing
+- [ ] Add older rovers (Curiosity, Opportunity, and Spirit)
 - [ ] Direct link to results from a query (Share the images from a date)
-  - [ ] Direct link by camera
-  - [ ] Direct link to individual image
 - [ ] Voting/Star images to add to a "Best of" gallery
+- [ ] Mobile swiping in gallery
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -63,6 +62,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/mattbartley/nasa-cam.svg?style=for-the-badge
 [contributors-url]: https://github.com/mattbartley/nasa-cam/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/mattbartley/nasa-cam.svg?style=for-the-badge

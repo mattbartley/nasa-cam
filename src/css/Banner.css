@@ -1,5 +1,5 @@
 .banner {
-  background-color: rgb(4 10 16);
+  background: linear-gradient(177deg, black, #001b1b);
   min-height: 24rem;
   display: grid;
   align-content: center;
@@ -43,14 +43,14 @@
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   text-align: center;
-  display: grid;
-  grid-gap: 50px;
   line-height: 1;
-  padding: 0 1em;
   align-content: stretch;
   justify-content: center;
-  max-width: 85%;
-  margin: 0 0 1rem 0;
+  margin: 0rem 0 3rem 0;
+  max-width: 90%;
+}
+.banner__title span {
+  font-weight: 700;
 }
 .banner__text {
   font-weight: 400;
@@ -71,11 +71,20 @@
   font-size: 0.9rem;
   font-weight: 700;
   background: none;
-  border: 2px solid #fff;
-  padding: 0.5rem;
-  color: #fff;
+  border: 1px solid #519591;
+  border-radius: 4px;
+  padding: 0.8rem;
+  color: #77cf79;
   margin-top: 1rem;
   cursor: pointer;
+  vertical-align: middle;
+  transition: all 0.3s;
+}
+
+.banner__btn:hover {
+  transition: all 0.3s;
+  background: #ffffff10;
+  color: #519591;
 }
 
 .banner__picker {

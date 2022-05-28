@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 export default function GalleryFilter({
-  images,
-  setFilteredPhotos,
+  setCurrentFilteredImages,
   activeCamera,
   setActiveCamera,
   setActiveCameraName,
+  fetchedPhotos,
+  setNumberOfFilteredPhotos,
 }) {
   const [availableCameras, setAvailableCameras] = useState([]);
 
@@ -14,7 +20,7 @@ export default function GalleryFilter({
     const cameraArr = [];
     let loading = true;
     if (loading) {
-      images.map((cameras) => {
+      fetchedPhotos.map((cameras) => {
         cameraArr.push({
           camera: cameras.camera.id,
           full_name: cameras.camera.full_name,
@@ -29,7 +35,6 @@ export default function GalleryFilter({
       const cameraHolderArr = uniqueCamerasIds.map((el, i) => {
         return [uniqueCamerasIds[i], uniqueCamerasNames[i]];
       });
-
       const uniqueCameras = Object.fromEntries(cameraHolderArr);
       setAvailableCameras(uniqueCameras);
       loading = false;
@@ -37,47 +42,50 @@ export default function GalleryFilter({
   };
   useEffect(() => {
     getCameras();
-  }, [images]);
+  }, [fetchedPhotos]);
 
   useEffect(() => {
-    const filtered = images.filter((photo) => photo.camera.id === activeCamera);
+    const filtered = fetchedPhotos.filter(
+      (photo) => photo.camera.id === activeCamera
+    );
     {
       activeCamera === 0
-        ? setFilteredPhotos(images)
-        : setFilteredPhotos(filtered);
+        ? setCurrentFilteredImages(fetchedPhotos)
+        : setCurrentFilteredImages(filtered);
     }
+    setNumberOfFilteredPhotos(filtered.length);
   }, [activeCamera]);
 
+  const cameraValue = "";
+  const handleCameraChange = (event) => {
+    setActiveCamera(event.target.value[0]);
+    setActiveCameraName(event.target.value[1]);
+  };
+
   return (
-    <div className="dropdown">
-      <div className="dropdown__btn">Select Camera</div>
-      <div className="dropdown__content">
-        <button
-          onClick={() => {
-            setActiveCamera(0);
-            setActiveCameraName("All Cameras");
-          }}
-          className={activeCamera === 0 ? "active" : ""}
-        >
-          All Cameras
-        </button>
+    <FormControl sx={{ m: 0 }}>
+      <InputLabel>SELECT CAMERA</InputLabel>
+      <Select
+        sx={{ m: 0, minWidth: 210 }}
+        value={cameraValue}
+        onChange={handleCameraChange}
+        id="camera__select"
+        label="SELECT CAMERA"
+        autoWidth
+      >
+        <MenuItem value={[0, "All Cameras"]}>
+          <em>All Cameras</em>
+        </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);
-          const cameraName = availableCameras[camera];
+          const cameraFullName = availableCameras[camera];
           return (
-            <button
-              key={camera}
-              className={activeCamera === cameraID ? "active" : ""}
-              onClick={() => {
-                setActiveCamera(cameraID);
-                setActiveCameraName(cameraName);
-              }}
-            >
-              {cameraName}
-            </button>
+            <MenuItem key={camera} value={[cameraID, cameraFullName]}>
+              {cameraFullName}
+            </MenuItem>
           );
         })}
-      </div>
-    </div>
+      </Select>
+    </FormControl>
   );
 }
