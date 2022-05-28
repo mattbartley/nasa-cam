@@ -29,7 +29,7 @@ export default function Nav() {
             </span>
           </div>
           <div className="nav__menu">
-            <span className="menu__btn">MENU</span>
+            <span className="menu__btn"></span>
           </div>
         </div>
       </div>

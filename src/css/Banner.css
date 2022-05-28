@@ -71,11 +71,20 @@
   font-size: 0.9rem;
   font-weight: 700;
   background: none;
-  border: 2px solid #fff;
-  padding: 0.5rem;
-  color: #fff;
+  border: 1px solid #519591;
+  border-radius: 4px;
+  padding: 0.8rem;
+  color: #77cf79;
   margin-top: 1rem;
   cursor: pointer;
+  vertical-align: middle;
+  transition: all 0.3s;
+}
+
+.banner__btn:hover {
+  transition: all 0.3s;
+  background: #ffffff10;
+  color: #519591;
 }
 
 .banner__picker {
