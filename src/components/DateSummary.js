@@ -21,7 +21,7 @@ export default function DateSummary({
     <Stack sx={{ alignItems: "center", textAlign: "center" }}>
       <div className="date__summary">
         <div className="selected__date">
-          {fetchedPhotos != ""
+          {fetchedPhotos.length
             ? moment(fetchedPhotos[0].earth_date).format("MMMM Do, YYYY")
             : ""}
           <span className="selected__sol">

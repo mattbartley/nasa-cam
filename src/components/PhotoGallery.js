@@ -43,7 +43,7 @@ export default function PhotoGallery({
             const smallExt = "_320.jpg";
             const mediumExt = "_800.jpg";
             const largeExt = "_1200.jpg";
-            const fullExt = ".png";
+            //const fullExt = ".png";
 
             let imgSrc = image.img_src;
             let imgSrcBase = imgSrc.substring(0, imgSrc.length - 9);
@@ -51,7 +51,7 @@ export default function PhotoGallery({
             let smallSrc = imgSrcBase + smallExt;
             let mediumSrc = imgSrcBase + mediumExt;
             let largeSrc = imgSrcBase + largeExt;
-            let fullSrc = imgSrcBase + fullExt;
+            //let fullSrc = imgSrcBase + fullExt;
 
             return (
               <motion.div

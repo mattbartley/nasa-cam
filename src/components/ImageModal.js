@@ -173,6 +173,7 @@ export default function ImageModal({
                     ) + ".png"
                   }`}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   Full-size .PNG{" "}
                   <span className="modal__open_icon material-icons md-light md-16">

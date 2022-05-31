@@ -3,7 +3,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, Container, Box, Tooltip, Fab, Fade } from "@mui/material/";
+import { Grid, Container, Box, Tooltip } from "@mui/material/";
 import HelpIcon from "@mui/icons-material/Help";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
@@ -277,7 +277,9 @@ function App() {
               <DatePicker
                 sx={{ m: 0 }}
                 value={
-                  fetchedPhotos != "" ? fetchedPhotos[0].earth_date : datePicked
+                  fetchedPhotos.length
+                    ? fetchedPhotos[0].earth_date
+                    : datePicked
                 }
                 onChange={(newDate) => {
                   setDatePicked(moment(newDate).format("YYYY-MM-DD"));
