@@ -7,11 +7,6 @@ export default function Footer() {
   const perseveranceLink = "https://mars.nasa.gov/mars2020/";
   const nasaLink = "https://api.nasa.gov/#MarsPhotos";
 
-  const githubImage = require("../assets/images/github-logo.png").default;
-  const personalImage = require("../assets/images/matt.png").default;
-  const nasaImage = require("../assets/images/nasa-logo.png").default;
-  const perseveranceLogo =
-    require("../assets/images/nasa-perseverance-logo.png").default;
   return (
     <footer className="footer__container">
       <div className="footer__credits">
