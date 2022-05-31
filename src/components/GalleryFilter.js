@@ -25,6 +25,7 @@ export default function GalleryFilter({
           camera: cameras.camera.id,
           full_name: cameras.camera.full_name,
         });
+        return cameraArr;
       });
       const uniqueCamerasIds = [
         ...new Set(cameraArr.map((data) => data.camera)),
@@ -48,11 +49,11 @@ export default function GalleryFilter({
     const filtered = fetchedPhotos.filter(
       (photo) => photo.camera.id === activeCamera
     );
-    {
-      activeCamera === 0
-        ? setCurrentFilteredImages(fetchedPhotos)
-        : setCurrentFilteredImages(filtered);
-    }
+
+    activeCamera === 0
+      ? setCurrentFilteredImages(fetchedPhotos)
+      : setCurrentFilteredImages(filtered);
+
     setNumberOfFilteredPhotos(filtered.length);
   }, [activeCamera]);
 

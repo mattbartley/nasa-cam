@@ -25,7 +25,7 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
         label="Search Sol"
         variant="outlined"
         placeholder={
-          fetchedPhotos != ""
+          fetchedPhotos.length
             ? fetchedPhotos[0].sol.toString()
             : solPicked.toString()
         }

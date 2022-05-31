@@ -1,4 +1,3 @@
-import { requirePropFactory } from "@mui/material";
 import React from "react";
 import "../css/Footer.css";
 
@@ -7,7 +6,6 @@ export default function Footer() {
   const personalLink = "https://github.com/mattbartley/";
   const perseveranceLink = "https://mars.nasa.gov/mars2020/";
   const nasaLink = "https://api.nasa.gov/#MarsPhotos";
-  const creditText = "ALL IMAGES CREDITED TO NASA/JPL-CALTECH";
 
   const githubImage = "require(../assets/images/github-logo.png)";
   const personalImage = "../assets/images/matt.png";
@@ -18,48 +16,45 @@ export default function Footer() {
     <footer className="footer__container">
       <div className="footer__credits">
         <div className="footer__item">
-          <a href={githubLink} target="_blank">
-            <img src={require("../assets/images/github-logo.png")} alt="" />
+          <a href={githubLink} target="_blank" rel="noreferrer">
+            <img src={githubImage} alt="github logo" />
           </a>
           <span className="footer__text">
             This project is open source.{" "}
-            <a href={githubLink} target="_blank">
+            <a href={githubLink} target="_blank" rel="noreferrer">
               Check it out.
             </a>
           </span>
         </div>
         <div className="footer__item">
-          <a href={personalLink} target="_blank">
-            <img src={require("../assets/images/matt.png")} alt="" />
+          <a href={personalLink} target="_blank" rel="noreferrer">
+            <img src={personalImage} alt="matt bartley profile" />
           </a>
           <span className="footer__text">
             Built by{" "}
-            <a href={personalLink} target="_blank">
+            <a href={personalLink} target="_blank" rel="noreferrer">
               Matt Bartley
             </a>
           </span>
         </div>
         <div className="footer__item">
-          <a href={nasaLink} target="_blank">
-            <img src={require("../assets/images/nasa-logo.png")} alt="" />
+          <a href={nasaLink} target="_blank" rel="noreferrer">
+            <img src={nasaImage} alt="nasa logo" />
           </a>
           <span className="footer__text">
             All data provided by{" "}
-            <a href={nasaLink} target="_blank">
+            <a href={nasaLink} target="_blank" rel="noreferrer">
               NASA
             </a>
           </span>
         </div>
         <div className="footer__item">
-          <a href={perseveranceLink} target="_blank">
-            <img
-              src={require("../assets/images/nasa-perseverance-logo.png")}
-              alt=""
-            />
+          <a href={perseveranceLink} target="_blank" rel="noreferrer">
+            <img src={perseveranceLogo} alt="perseverance mission logo" />
           </a>
           <span className="footer__text">
             More about the{" "}
-            <a href={perseveranceLink} target="_blank">
+            <a href={perseveranceLink} target="_blank" rel="noreferrer">
               Perseverance Mission
             </a>
           </span>
@@ -75,6 +70,7 @@ export default function Footer() {
         <a
           href="https://www.nasa.gov/multimedia/guidelines/index.html"
           target="_blank"
+          rel="noreferrer"
         >
           {" "}
           Media Usage Guidelines.
