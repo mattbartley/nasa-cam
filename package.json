@@ -1,6 +1,6 @@
 {
   "name": "nasa-cam",
-  "version": "0.1.0",
+  "version": "1.0",
   "private": true,
   "dependencies": {
     "@date-io/moment": "^2.13.2",

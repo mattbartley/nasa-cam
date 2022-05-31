@@ -14,8 +14,8 @@ import HomeScreen from "./components/HomeScreen";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import moment from "moment";
-import "./css/App.css";
 import Stats from "./components/Stats";
+import "./css/App.css";
 
 function App() {
   // MUI custom palette set up

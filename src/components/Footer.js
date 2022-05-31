@@ -65,6 +65,21 @@ export default function Footer() {
           </span>
         </div>
       </div>
+      <p className="copy__year">
+        &copy; {new Date().getFullYear()} Nasa.cam | Matt Bartley
+      </p>
+      <p className="copy__nasa">
+        This site is not affiliated with or endoursed by NASA. All images are
+        credited to NASA/JPL-CALTECH. To use any of the images found on this
+        site, please see NASA's{" "}
+        <a
+          href="https://www.nasa.gov/multimedia/guidelines/index.html"
+          target="_blank"
+        >
+          {" "}
+          Media Usage Guidelines.
+        </a>
+      </p>
     </footer>
   );
 }
