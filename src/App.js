@@ -4,20 +4,23 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Grid, Container, Box, Tooltip } from "@mui/material/";
-import HelpIcon from "@mui/icons-material/Help";
+import { useGA4React } from "ga-4-react";
+import moment from "moment";
+import HomeScreen from "./components/HomeScreen";
 import TextField from "@mui/material/TextField";
 import PhotoGallery from "./components/PhotoGallery";
 import GalleryFilter from "./components/GalleryFilter";
 import DateSummary from "./components/DateSummary";
 import SolPicker from "./components/SolPicker";
-import HomeScreen from "./components/HomeScreen";
-import Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop";
-import moment from "moment";
 import Stats from "./components/Stats";
+import HelpIcon from "@mui/icons-material/Help";
+import ScrollToTop from "./components/ScrollToTop";
+import Footer from "./components/Footer";
 import "./css/App.css";
 
 function App() {
+  const ga = useGA4React();
+  console.log(ga);
   // MUI custom palette set up
   const darkTheme = createTheme({
     breakpoints: {
@@ -146,7 +149,6 @@ function App() {
   // 1. - Fetches mission manifest to get latest date photos were provided
   // 2. - Uses that date to call getPhotosByDate(date) to display the most recent images
   // 3. - Uses date for setDatePicked(date) to update the Datepicker placeholder
-
   useEffect(() => {
     if (isManifestLoaded.current === false) {
       fetch(apiManifestUrl)
