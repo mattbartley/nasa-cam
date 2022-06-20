@@ -20,7 +20,7 @@ import "./css/App.css";
 
 function App() {
   const ga = useGA4React();
-  console.log(ga);
+
   // MUI custom palette set up
   const darkTheme = createTheme({
     breakpoints: {
