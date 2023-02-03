@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
-import "../css/ImageModal.css";
+import { motion, AnimatePresence } from 'framer-motion';
+import '../css/ImageModal.css';
 
 export default function ImageModal({
   selectedImage,
@@ -11,7 +11,7 @@ export default function ImageModal({
   currentIndex,
 }) {
   const handleBackdropClick = (e) => {
-    if (e.target.classList.contains("backdrop")) {
+    if (e.target.classList.contains('backdrop')) {
       setSelectedImage(null);
     }
   };
@@ -47,26 +47,26 @@ export default function ImageModal({
       <motion.div
         className="backdrop"
         onClick={handleBackdropClick}
-        transition={{ ease: "easeOut", duration: 0.3 }}
+        transition={{ ease: 'easeOut', duration: 0.3 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <motion.img
-          initial={{ y: "10vh", scale: 0.85, opacity: 0 }}
-          transition={{ ease: "easeIn", damping: 300 }}
-          animate={{ y: "0", scale: 1, opacity: 1 }}
-          exit={{ y: "10vh", scale: 0.85, opacity: 0 }}
+          initial={{ y: '10vh', scale: 0.85, opacity: 0 }}
+          transition={{ ease: 'easeIn', damping: 300 }}
+          animate={{ y: '0', scale: 1, opacity: 1 }}
+          exit={{ y: '10vh', scale: 0.85, opacity: 0 }}
           key={selectedImage.id}
           src={selectedImage.img_src}
           alt={
-            "Nasa Mars Photo id: " +
+            'Nasa Mars Photo id: ' +
             selectedImage.id +
-            " using camera: " +
+            ' using camera: ' +
             selectedImage.camera.full_name +
-            ". Taken on " +
+            '. Taken on ' +
             selectedImage.earth_date +
-            " - sol: " +
+            ' - sol: ' +
             selectedImage.sol
           }
         />
@@ -77,17 +77,17 @@ export default function ImageModal({
           >
             <span className="material-icons md-48 nav__icon">west</span>
           </div>
-          {currentIndex + 1 + " / " + currentFilteredImages.length}
+          {currentIndex + 1 + ' / ' + currentFilteredImages.length}
           <div className="modal__button next__btn" onClick={handleNextImage}>
             <span className="material-icons md-48 nav__icon">east</span>
           </div>
         </div>
         <motion.div
           className="modal__details"
-          transition={{ ease: "easeIn", damping: 300 }}
-          initial={{ y: "20vh", opacity: 0 }}
-          animate={{ y: "0", opacity: 1 }}
-          exit={{ y: "50vh", opacity: 0 }}
+          transition={{ ease: 'easeIn', damping: 300 }}
+          initial={{ y: '20vh', opacity: 0 }}
+          animate={{ y: '0', opacity: 1 }}
+          exit={{ y: '50vh', opacity: 0 }}
         >
           <div className="details__card">
             <motion.div className="detail__item">
@@ -161,7 +161,7 @@ export default function ImageModal({
 
               <p className="detail__text">
                 <span className="description__title">Dimensions: </span>
-                {imageSize?.[0] + "px x " + imageSize?.[1] + "px"}
+                {imageSize?.[0] + 'px x ' + imageSize?.[1] + 'px'}
               </p>
               <p className="detail__text">
                 <span className="description__title">Direct Link: </span>
@@ -170,12 +170,12 @@ export default function ImageModal({
                     selectedImage.img_src.substring(
                       0,
                       selectedImage.img_src.length - 9
-                    ) + ".png"
+                    ) + '.png'
                   }`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Full-size .PNG{" "}
+                  Full-size .PNG{' '}
                   <span className="modal__open_icon material-icons md-light md-16">
                     open_in_new
                   </span>

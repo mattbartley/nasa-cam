@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default function GalleryFilter({
   setCurrentFilteredImages,
@@ -15,8 +16,9 @@ export default function GalleryFilter({
 }) {
   const [availableCameras, setAvailableCameras] = useState([]);
 
+  // Get unique camera names and ids
+  // Only show cameras that have photos
   const getCameras = () => {
-    setActiveCamera(0);
     const cameraArr = [];
     let loading = true;
     if (loading) {
@@ -41,8 +43,11 @@ export default function GalleryFilter({
       loading = false;
     }
   };
+  const [value, setValue] = useState(activeCamera);
   useEffect(() => {
     getCameras();
+    setActiveCamera(0);
+    setValue(0);
   }, [fetchedPhotos]);
 
   useEffect(() => {
@@ -57,10 +62,9 @@ export default function GalleryFilter({
     setNumberOfFilteredPhotos(filtered.length);
   }, [activeCamera]);
 
-  const cameraValue = "";
   const handleCameraChange = (event) => {
-    setActiveCamera(event.target.value[0]);
-    setActiveCameraName(event.target.value[1]);
+    setActiveCamera(event.target.value);
+    setValue(event.target.value);
   };
 
   return (
@@ -68,20 +72,25 @@ export default function GalleryFilter({
       <InputLabel>SELECT CAMERA</InputLabel>
       <Select
         sx={{ m: 0, minWidth: 210 }}
-        value={cameraValue}
+        defaultValue={value}
+        value={value}
         onChange={handleCameraChange}
         id="camera__select"
         label="SELECT CAMERA"
         autoWidth
       >
-        <MenuItem value={[0, "All Cameras"]}>
+        <MenuItem value={0}>
           <em>All Cameras</em>
         </MenuItem>
         {Object.keys(availableCameras).map((camera) => {
           const cameraID = parseInt(camera);
           const cameraFullName = availableCameras[camera];
           return (
-            <MenuItem key={camera} value={[cameraID, cameraFullName]}>
+            <MenuItem
+              key={camera}
+              value={cameraID}
+              onClick={() => setActiveCameraName(cameraFullName)}
+            >
               {cameraFullName}
             </MenuItem>
           );
