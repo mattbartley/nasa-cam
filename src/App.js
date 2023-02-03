@@ -24,6 +24,8 @@ import Stats from './components/Stats';
 import './css/App.css';
 
 function App() {
+  const ga = useGA4React();
+
   // Refs to prevent redundant API fetches on first load
   const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
@@ -98,7 +100,6 @@ function App() {
   // 1. - Fetches mission manifest to get latest date photos were provided
   // 2. - Uses that date to call getPhotosByDate(date) to display the most recent images
   // 3. - Uses date for setDatePicked(date) to update the Datepicker placeholder
-
   useEffect(() => {
     if (isManifestLoaded.current === false) {
       fetch(apiManifestUrl)
