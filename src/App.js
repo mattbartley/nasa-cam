@@ -24,8 +24,6 @@ import Stats from './components/Stats';
 import './css/App.css';
 
 function App() {
-  const ga = useGA4React();
-
   // Refs to prevent redundant API fetches on first load
   const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
