@@ -1,6 +1,6 @@
-import moment from "moment";
-import "../css/DateSummary.css";
-import { Skeleton, Stack } from "@mui/material/";
+import moment from 'moment';
+import '../css/DateSummary.css';
+import { Skeleton, Stack } from '@mui/material/';
 
 export default function DateSummary({
   fetchedPhotos,
@@ -18,16 +18,16 @@ export default function DateSummary({
   // Conditionally render facts from the selected date's mission (Number of photos, camera name, Earth Date & Sol, etc)
   // Converts API-provided YYYY-MM-DD date format for redability (i.e. Jan 1st, 2022) with moment.js
   return (
-    <Stack sx={{ alignItems: "center", textAlign: "center" }}>
+    <Stack sx={{ alignItems: 'center', textAlign: 'center' }}>
       <div className="date__summary">
         <div className="selected__date">
           {fetchedPhotos.length
-            ? moment(fetchedPhotos[0].earth_date).format("MMMM Do, YYYY")
-            : ""}
+            ? moment(fetchedPhotos[0].earth_date).format('MMMM Do, YYYY')
+            : ''}
           <span className="selected__sol">
             {filteredPhotos[0] === undefined
-              ? ""
-              : " // Sol " + filteredPhotos[0].sol}
+              ? ''
+              : ' // Sol ' + filteredPhotos[0].sol}
           </span>
         </div>
         <div className="returned__details">
@@ -36,11 +36,11 @@ export default function DateSummary({
               <Skeleton
                 variant="h1"
                 width={210}
-                sx={{ m: 1, textAlign: "center" }}
+                sx={{ m: 1, textAlign: 'center' }}
               />
             ) : fetchedPhotos.length > 0 ? (
               <>
-                Images Returned:{" "}
+                Images Returned:{' '}
                 <span className="returned__text">{numberOfImages}</span>
               </>
             ) : (
@@ -51,16 +51,16 @@ export default function DateSummary({
         <div className="returned__details">
           {fetchedPhotos.length > 0 ? (
             <>
-              Current Camera:{" "}
+              Current Camera:{' '}
               <span className="returned__text">
-                {activeCamera === 0 ? "All" : activeCameraName}
+                {activeCamera === 0 ? 'All' : activeCameraName}
               </span>
             </>
           ) : (
             <Skeleton
               variant="p"
               width={210}
-              sx={{ m: 1, textAlign: "center" }}
+              sx={{ m: 1, textAlign: 'center' }}
             />
           )}
         </div>

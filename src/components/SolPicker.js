@@ -1,25 +1,25 @@
-import { useRef, useState } from "react";
-import { Button, FormGroup, TextField } from "@mui/material/";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useRef, useState } from 'react';
+import { Button, FormGroup, TextField } from '@mui/material/';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
-  const [solInput, setSolInput] = useState("");
+  const [solInput, setSolInput] = useState('');
   let solForm = useRef(null);
 
   const showBySol = (e) => {
     e.preventDefault();
     setSolPicked(solInput);
-    setSolInput("");
+    setSolInput('');
   };
 
   return (
     <FormGroup row>
       <TextField
         sx={{
-          textTransform: "uppercase",
+          textTransform: 'uppercase',
           fieldset: {
-            borderTopRightRadius: "0px",
-            borderBottomRightRadius: "0px",
+            borderTopRightRadius: '0px',
+            borderBottomRightRadius: '0px',
           },
         }}
         label="Search Sol"
@@ -36,9 +36,9 @@ export default function SolPicker({ fetchedPhotos, solPicked, setSolPicked }) {
           setSolInput(e.target.value);
         }}
         onKeyPress={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === 'Enter') {
             setSolPicked(solInput);
-            setSolInput("");
+            setSolInput('');
             e.preventDefault();
           }
         }}

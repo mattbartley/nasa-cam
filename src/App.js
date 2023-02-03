@@ -1,113 +1,60 @@
-import React, { useState, useEffect, useRef } from "react";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Grid, Container, Box, Tooltip } from "@mui/material/";
-import { useGA4React } from "ga-4-react";
-import moment from "moment";
-import HomeScreen from "./components/HomeScreen";
-import TextField from "@mui/material/TextField";
-import PhotoGallery from "./components/PhotoGallery";
-import GalleryFilter from "./components/GalleryFilter";
-import DateSummary from "./components/DateSummary";
-import SolPicker from "./components/SolPicker";
-import Stats from "./components/Stats";
-import HelpIcon from "@mui/icons-material/Help";
-import ScrollToTop from "./components/ScrollToTop";
-import Footer from "./components/Footer";
-import "./css/App.css";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useRef } from 'react';
+// MUI components
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { ThemeProvider } from '@mui/material/styles';
+import { Grid, Container, Box, Tooltip } from '@mui/material/';
+import HelpIcon from '@mui/icons-material/Help';
+import TextField from '@mui/material/TextField';
+import DarkTheme from './utils/Pallete';
+
+// Custom components
+import PhotoGallery from './components/PhotoGallery';
+import GalleryFilter from './components/GalleryFilter';
+import DateSummary from './components/DateSummary';
+import SolPicker from './components/SolPicker';
+import HomeScreen from './components/HomeScreen';
+import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+import moment from 'moment';
+import Stats from './components/Stats';
+
+import './css/App.css';
 
 function App() {
-  const ga = useGA4React();
-
-  // MUI custom palette set up
-  const darkTheme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
-    palette: {
-      mode: "dark",
-      primary: {
-        main: "#519591",
-      },
-      secondary: {
-        main: "#334756",
-      },
-      focus: {
-        main: "#519591",
-      },
-      info: {
-        main: "#dd7e7e",
-      },
-      background: {
-        paper: "#101824",
-        default: "#101824",
-      },
-      action: {
-        active: "#334756",
-        hover: "#5195914f",
-        hoverOpacity: "0.2",
-        selected: "#db6d35",
-        selectedOpacity: ".16",
-        disabled: "rgb(82 82 82)",
-        disabledBackground: "rgb(63 63 63 / 63%)",
-        focus: "#db6d35",
-        focusOpacity: "0",
-      },
-    },
-    typography: {
-      fontFamily: [
-        "Jura",
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-      ].join(","),
-    },
-  });
   // Refs to prevent redundant API fetches on first load
   const isManifestLoaded = useRef(false);
   const isManifestReadyDate = useRef(false);
   const isManifestReadySol = useRef(false);
 
-  // ↓ Data from manifest api
-  const [manifestData, setManifestData] = useState("");
+  // Data from manifest api
+  const [manifestData, setManifestData] = useState('');
   const [manifestDates, setManifestDates] = useState([]);
-  // ↓ Photos fetched from getPhotosByDate() or getPhotosBySol()
+  // Photos fetched from getPhotosByDate() or getPhotosBySol()
   const [fetchedPhotos, setFetchedPhotos] = useState([]);
-  // ↓  Date or Sol Picked by user
-  const [datePicked, setDatePicked] = useState("");
-  const [solPicked, setSolPicked] = useState("");
-  // ↓ Currently selected camera filter for photo gallery - 0 state returns all - real cameras have unique ids
+  //  Date or Sol Picked by user
+  const [datePicked, setDatePicked] = useState('');
+  const [solPicked, setSolPicked] = useState('');
+  // Currently selected camera filter for photo gallery - 0 state returns all - real cameras have unique ids
   const [activeCamera, setActiveCamera] = useState(0);
-  const [activeCameraName, setActiveCameraName] = useState("");
+  const [activeCameraName, setActiveCameraName] = useState('');
   const [numberOfFilteredPhotos, setNumberOfFilteredPhotos] = useState();
-  // ↓ Photos filtered by selected activeCamera
+  // Photos filtered by selected activeCamera
   const [filteredPhotos, setFilteredPhotos] = useState([]);
-  // ↓ Photo selected by onClick
+  // Photo selected by onClick
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // ↓ API URLs
+  // API URLs
   const apiManifestUrl =
-    "https://mars-photos.herokuapp.com/api/v1/manifests/perseverance/";
+    'https://mars-photos.herokuapp.com/api/v1/manifests/perseverance/';
 
   const apiDateBase =
-    "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?earth_date=";
+    'https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?earth_date=';
 
   const apiSolBase =
-    "https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=";
+    'https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=';
 
   // Fetches all photos by given Earth date
   const getPhotosByDate = async (date) => {
@@ -118,10 +65,11 @@ function App() {
         setFetchedPhotos(response.photos);
         setFilteredPhotos(response.photos);
         setNumberOfFilteredPhotos(response.photos.length);
+        setActiveCamera(0);
         return response;
       }
       if (!date) {
-        console.log("Loading..Waiting for date from manifest");
+        console.log('Loading..Waiting for date from manifest');
       }
     } else {
       isManifestReadyDate.current = true;
@@ -136,10 +84,11 @@ function App() {
         const response = await (await fetch(apiSolBase + sol)).json();
         setFetchedPhotos(response.photos);
         setFilteredPhotos(response.photos);
+        setActiveCamera(0);
         return response;
       }
       if (!sol) {
-        console.log("Loading..Waiting for Sol from manifest");
+        console.log('Loading..Waiting for Sol from manifest');
       }
     } else {
       isManifestReadySol.current = true;
@@ -178,7 +127,7 @@ function App() {
           return item.earth_date;
         })
       );
-    } else console.log("manifest loaded: " + isManifestLoaded.current);
+    } else console.log('manifest loaded: ' + isManifestLoaded.current);
   }, [manifestData]);
 
   //Load 25 images at a time
@@ -199,7 +148,7 @@ function App() {
   const [loadMore, handleLoadMore] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("scroll", calcLoadMore);
+    window.addEventListener('scroll', calcLoadMore);
     if (loadMore) {
       setImagesPerPage(imagesPerPage + 25);
     }
@@ -214,37 +163,37 @@ function App() {
     } else {
       handleLoadMore(false);
     }
-    return () => window.removeEventListener("scroll", calcLoadMore);
+    return () => window.removeEventListener('scroll', calcLoadMore);
   };
 
   //The MUI Datepicker takes function that retures true or false to disable any dates
   //If it's not in the manifestDates, return true to disable it
   const getDisabledDates = (date) => {
-    return !manifestDates.includes(date.toISOString().split("T")[0]);
+    return !manifestDates.includes(date.toISOString().split('T')[0]);
   };
 
   return (
     <div className="app">
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={DarkTheme}>
         <HomeScreen />
         <Stats manifestData={manifestData} />
         <Container
           id="scroll__down"
           sx={{
-            display: "flex",
-            justifyContent: "center",
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
           <Box
             sx={{
-              color: "secondary",
-              fontSize: ".85rem",
+              color: 'secondary',
+              fontSize: '.85rem',
               paddingLeft: 2,
               paddingRight: 2,
               m: 1,
               borderBottom: 1,
-              borderColor: "#ffffff1a",
-              alignmentBaseline: "bottom",
+              borderColor: '#ffffff1a',
+              alignmentBaseline: 'bottom',
             }}
           >
             <p className="search__intro">
@@ -255,10 +204,10 @@ function App() {
               >
                 <HelpIcon
                   sx={{
-                    fontSize: "1rem",
-                    textAlign: "right",
+                    fontSize: '1rem',
+                    textAlign: 'right',
                     marginLeft: 1,
-                    color: "#ffffff40",
+                    color: '#ffffff40',
                   }}
                 />
               </Tooltip>
@@ -284,7 +233,7 @@ function App() {
                     : datePicked
                 }
                 onChange={(newDate) => {
-                  setDatePicked(moment(newDate).format("YYYY-MM-DD"));
+                  setDatePicked(moment(newDate).format('YYYY-MM-DD'));
                 }}
                 renderInput={(params) => <TextField {...params} />}
                 disableFuture={true}

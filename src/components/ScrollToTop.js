@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Fab } from "@mui/material/";
-import "../css/ScrollToTop.css";
+import { useState, useEffect } from 'react';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Fab } from '@mui/material/';
+import '../css/ScrollToTop.css';
 
 const ScrollToTop = () => {
   const [showTopButton, setShowTopButton] = useState(false);
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    window.addEventListener('scroll', () => {
       if (window.scrollY > 400) {
         setShowTopButton(true);
       } else {
@@ -17,18 +17,18 @@ const ScrollToTop = () => {
 
   const goToTop = () => {
     document
-      .getElementById("scroll__stop")
-      .scrollIntoView({ behavior: "smooth" });
+      .getElementById('scroll__stop')
+      .scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className={`scroll__button ${showTopButton ? "showBtn" : "hideBtn"}`}>
+    <div className={`scroll__button ${showTopButton ? 'showBtn' : 'hideBtn'}`}>
       <Fab
         className="scroll__button"
         sx={{
-          position: "fixed",
-          right: "1rem",
-          bottom: "1rem",
+          position: 'fixed',
+          right: '1rem',
+          bottom: '1rem',
         }}
         color="secondary"
         size="small"

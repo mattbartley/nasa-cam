@@ -9,7 +9,7 @@
 }
 
 .banner_container {
-  background: url("../assets/images/mars-header.png");
+  background: url('../assets/images/mars-header.png');
   background-position: bottom;
   background-size: cover;
 }
@@ -37,7 +37,7 @@
 }
 
 .banner__title {
-  font-family: "Jura", sans-serif;
+  font-family: 'Jura', sans-serif;
   font-weight: 500;
   font-size: min(max(36px, 4vw), 70px);
   text-transform: uppercase;

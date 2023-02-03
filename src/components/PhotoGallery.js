@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import ImageModal from "./ImageModal";
-import "../css/PhotoGallery.css";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import ImageModal from './ImageModal';
+import '../css/PhotoGallery.css';
 
 export default function PhotoGallery({
   selectedImage,
@@ -20,7 +20,7 @@ export default function PhotoGallery({
 
   const getImageSize = (url) => {
     let img = new Image();
-    img.src = url.substring(0, url.length - 9).concat(".png");
+    img.src = url.substring(0, url.length - 9).concat('.png');
     img.onload = () => {
       setImageSize([img.width, img.height]);
     };
@@ -40,10 +40,9 @@ export default function PhotoGallery({
       <div className="photo__gallery__container">
         {currentFilteredImages &&
           currentFilteredImages.map((image, index) => {
-            const smallExt = "_320.jpg";
-            const mediumExt = "_800.jpg";
-            const largeExt = "_1200.jpg";
-            //const fullExt = ".png";
+            const smallExt = '_320.jpg';
+            const mediumExt = '_800.jpg';
+            const largeExt = '_1200.jpg';
 
             let imgSrc = image.img_src;
             let imgSrcBase = imgSrc.substring(0, imgSrc.length - 9);
@@ -51,7 +50,6 @@ export default function PhotoGallery({
             let smallSrc = imgSrcBase + smallExt;
             let mediumSrc = imgSrcBase + mediumExt;
             let largeSrc = imgSrcBase + largeExt;
-            //let fullSrc = imgSrcBase + fullExt;
 
             return (
               <motion.div
@@ -68,20 +66,20 @@ export default function PhotoGallery({
                   className="gallery__image"
                   id={image.id}
                   sizes={
-                    "(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px"
+                    '(max-width: 600px) 50vw, (min-width: 601px) 50vw,(min-width: 1200px) 50vw, 1200px'
                   }
                   srcSet={`${smallSrc} 320w, ${mediumSrc} 800w, ${largeSrc} 1200w`}
                   alt={
-                    "Nasa Mars Photo id: " +
+                    'Nasa Mars Photo id: ' +
                     image.id +
-                    " using camera: " +
+                    ' using camera: ' +
                     image.camera.full_name +
-                    ". Taken on " +
+                    '. Taken on ' +
                     image.earth_date +
-                    " - sol: " +
+                    ' - sol: ' +
                     image.sol
                   }
-                  loading={"lazy"}
+                  loading={'lazy'}
                 />
               </motion.div>
             );
@@ -96,9 +94,6 @@ export default function PhotoGallery({
               setCurrentIndex={setCurrentIndex}
               currentIndex={currentIndex}
               imageSize={imageSize}
-              numberOfFilteredPhotos={numberOfFilteredPhotos}
-              originalIndex={originalIndex}
-              getOriginalInde={getOriginalIndex}
             />
           )}
         </AnimatePresence>
