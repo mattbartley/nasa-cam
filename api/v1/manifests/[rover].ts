@@ -19,10 +19,11 @@ export default async function handler(
   }
 
   try {
-    // Get aggregated stats per sol
-    const solStats = await prisma.photo.groupBy({
-      by: ["sol", "earthDate"],
+    // Get photo count per sol
+    const solCounts = await prisma.photo.groupBy({
+      by: ["sol"],
       _count: { id: true },
+      _min: { earthDate: true },
       orderBy: { sol: "asc" },
     });
 
@@ -46,18 +47,18 @@ export default async function handler(
     }
 
     // Build manifest photos array
-    const photos: ManifestPhoto[] = solStats.map((stat) => ({
+    const photos: ManifestPhoto[] = solCounts.map((stat) => ({
       sol: stat.sol,
-      earth_date: stat.earthDate.toISOString().split("T")[0],
+      earth_date: stat._min.earthDate?.toISOString().split("T")[0] || PERSEVERANCE_LANDING_DATE,
       total_photos: stat._count.id,
       cameras: Array.from(camerasBySol[stat.sol] || []),
     }));
 
     // Calculate totals
     const totalPhotos = await prisma.photo.count();
-    const maxSol = solStats.length > 0 ? solStats[solStats.length - 1].sol : 0;
-    const maxDate = solStats.length > 0
-      ? solStats[solStats.length - 1].earthDate.toISOString().split("T")[0]
+    const maxSol = solCounts.length > 0 ? solCounts[solCounts.length - 1].sol : 0;
+    const maxDate = solCounts.length > 0 && solCounts[solCounts.length - 1]._min.earthDate
+      ? solCounts[solCounts.length - 1]._min.earthDate!.toISOString().split("T")[0]
       : PERSEVERANCE_LANDING_DATE;
 
     const response: ManifestAPIResponse = {

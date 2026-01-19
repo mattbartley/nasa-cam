@@ -43,13 +43,37 @@ async function getLatestSolFromNASA(): Promise<number> {
   return data.latest_sol;
 }
 
+async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchWithRetry(url: string, retries = 3): Promise<NASASolResponse> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const response = await fetch(url);
+
+    // Check if we got HTML (rate limited) instead of JSON
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      if (attempt < retries) {
+        const delay = attempt * 2000; // 2s, 4s, 6s backoff
+        console.log(`\n  Rate limited on ${url}, retrying in ${delay}ms...`);
+        await sleep(delay);
+        continue;
+      }
+      throw new Error("Rate limited - received HTML instead of JSON");
+    }
+
+    return (await response.json()) as NASASolResponse;
+  }
+  throw new Error("Max retries exceeded");
+}
+
 async function scrapeSol(
   sol: number,
   cameraMap: Map<string, number>
 ): Promise<{ sol: number; count: number }> {
   try {
-    const response = await fetch(NASA_SOL_URL(sol));
-    const data = (await response.json()) as NASASolResponse;
+    const data = await fetchWithRetry(NASA_SOL_URL(sol));
 
     if (!data.images || data.images.length === 0) {
       return { sol, count: 0 };
@@ -129,6 +153,11 @@ async function processInBatches(
       totalInserted += result.count;
       completed++;
     }
+
+    // Delay between batches to avoid rate limiting
+    // NASA seems to allow ~30 req/min, so 2s delay with concurrency 1 = safe
+    const delay = concurrency === 1 ? 2000 : 1000;
+    await sleep(delay);
   }
 
   return totalInserted;
@@ -138,7 +167,7 @@ async function main() {
   const args = process.argv.slice(2);
   const startSol = args[0] ? parseInt(args[0], 10) : 0;
   const endSolArg = args[1] ? parseInt(args[1], 10) : null;
-  const concurrency = args[2] ? parseInt(args[2], 10) : 10;
+  const concurrency = args[2] ? parseInt(args[2], 10) : 1;
 
   console.log("=".repeat(60));
   console.log("NASA.cam Optimized Backfill");
