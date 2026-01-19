@@ -46,15 +46,12 @@ function App() {
   // Photo selected by onClick
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // API URLs
-  const apiManifestUrl =
-    'https://mars-photos.herokuapp.com/api/v1/manifests/perseverance/';
+  // API URLs - using local API endpoints
+  const apiManifestUrl = '/api/v1/manifests/perseverance';
 
-  const apiDateBase =
-    'https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?earth_date=';
+  const apiDateBase = '/api/v1/rovers/perseverance/photos?earth_date=';
 
-  const apiSolBase =
-    'https://mars-photos.herokuapp.com/api/v1/rovers/perseverance/photos?sol=';
+  const apiSolBase = '/api/v1/rovers/perseverance/photos?sol=';
 
   // Fetches all photos by given Earth date
   const getPhotosByDate = async (date) => {

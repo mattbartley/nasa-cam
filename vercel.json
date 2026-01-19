@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "create-react-app",
+  "crons": [
+    {
+      "path": "/api/cron/scrape",
+      "schedule": "0 6 * * *"
+    }
+  ]
+}
