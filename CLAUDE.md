@@ -6,6 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 NASA.cam is a React web application for browsing NASA Perseverance rover images from Mars. Users can filter images by Earth date, Sol (Mars day), and camera type.
 
+This repo is the **public app**: the React frontend and the read-only API. The
+data that the app serves is produced separately by a **private ingestion repo**
+(`nasa-cam-ingest`), which scrapes NASA's feed into the shared Neon database. This
+repo only reads from that database — it does not scrape.
+
 ## Development Commands
 
 ### Frontend
@@ -19,13 +24,6 @@ NASA.cam is a React web application for browsing NASA Perseverance rover images 
 ### Backend/Database
 - `npm run db:push` - Push Prisma schema to database
 - `npm run db:generate` - Generate Prisma client
-- `npm run scrape` - Run incremental scraper (fetch new sols)
-- `npm run backfill` - Backfill historical data from NASA
-- `npm run backfill -- 100 500` - Backfill specific sol range
-- `npm run backfill -- 0 1730 3` - Backfill with custom concurrency
-
-### Utility Scripts
-- `npx ts-node scripts/check-db.ts` - Check database contents
 
 ## Architecture
 
@@ -38,27 +36,23 @@ React app with state managed in `src/App.js`:
 - `selectedImage` - Image open in modal
 
 ### Backend API (api/)
-Vercel serverless functions:
+Vercel serverless functions (read-only):
 - `GET /api/v1/manifests/perseverance` - Mission manifest with photo stats per sol
 - `GET /api/v1/rovers/perseverance/photos?sol=N` - Photos by sol
 - `GET /api/v1/rovers/perseverance/photos?earth_date=YYYY-MM-DD` - Photos by date
-- `GET /api/cron/scrape` - Cron endpoint for daily data sync (Vercel cron)
 
 ### Database (prisma/)
 PostgreSQL (Neon) with Prisma ORM:
 - `Camera` - Perseverance cameras (name, fullName)
 - `Photo` - Image records (imgSrc, sol, earthDate, cameraId)
+- `ScrapeProgress` - Per-sol ingestion state, **written by the private
+  `nasa-cam-ingest` repo**, not this app. Modeled here only so `prisma db push`
+  doesn't drop the table.
 
-### Data Ingestion (scripts/)
-- `scrape.ts` - Incremental scraper for new sols
-- `backfill.ts` - Bulk backfill with parallel fetching and retry logic
-- `check-db.ts` - Database status check
-
-**NASA Data Source:**
-```
-https://mars.nasa.gov/rss/api/?feed=raw_images&category=mars2020&feedtype=json&sol={sol}
-```
-Note: NASA rate limits this endpoint (~30 req/min). Backfill uses concurrency=1 with 2s delays by default.
+### Data ingestion (separate, private)
+Scraping the NASA feed (incremental + backfill) lives in the **private
+`nasa-cam-ingest` repo**, which writes to the same Neon database. It is not part
+of this repo. If you need to add/refresh data, work there.
 
 ## Component Structure
 ```
@@ -93,17 +87,12 @@ App.js (state manager)
    cp .env.local .env
    ```
 
-3. Initialize database:
+3. Generate the Prisma client:
    ```bash
-   npm run db:push
+   npm run db:generate
    ```
 
-4. Backfill data (takes ~1-2 hours due to NASA rate limits):
-   ```bash
-   npm run backfill
-   ```
-
-5. Run locally:
+4. Run locally (data is populated separately via the `nasa-cam-ingest` repo):
    ```bash
    vercel dev
    ```
@@ -114,12 +103,11 @@ Required (auto-populated by Vercel + Neon integration):
 - `DATABASE_URL` - Neon pooled connection string
 - `DATABASE_URL_UNPOOLED` - Neon direct connection string
 
-Optional:
-- `CRON_SECRET` - Auth token for cron endpoint
-
 ## Deployment
 
 Deployed on Vercel with:
 - Automatic builds on push
-- Daily cron job at 6 AM UTC to fetch new images
 - Neon PostgreSQL for serverless-optimized database
+
+Data ingestion (and any scheduled scraping) runs out of the private
+`nasa-cam-ingest` repo, not this deployment.
