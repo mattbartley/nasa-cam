@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { CalendarPickerSkeleton } from '@mui/x-date-pickers/CalendarPickerSkeleton';
 import { ThemeProvider } from '@mui/material/styles';
 import { Grid, Container, Box, Tooltip } from '@mui/material/';
 import HelpIcon from '@mui/icons-material/Help';
@@ -31,7 +32,13 @@ function App() {
 
   // Data from manifest api
   const [manifestData, setManifestData] = useState('');
-  const [manifestDates, setManifestDates] = useState([]);
+  // Earth dates (YYYY-MM-DD) known to have photos, accumulated per visited month
+  // from the activity endpoint. Drives which days the DatePicker enables.
+  const [activeDates, setActiveDates] = useState(() => new Set());
+  // Months (YYYY-MM) already fetched, to avoid refetching as the user navigates.
+  const loadedMonths = useRef(new Set());
+  // True while the currently-viewed month's activity is loading.
+  const [calendarLoading, setCalendarLoading] = useState(false);
   // Photos fetched from getPhotosByDate() or getPhotosBySol()
   const [fetchedPhotos, setFetchedPhotos] = useState([]);
   //  Date or Sol Picked by user
@@ -52,6 +59,12 @@ function App() {
   const apiDateBase = '/api/v1/rovers/perseverance/photos?earth_date=';
 
   const apiSolBase = '/api/v1/rovers/perseverance/photos?sol=';
+
+  // Standalone perseverance-api (Cloudflare Worker) serves the activity endpoint.
+  // Set REACT_APP_API_BASE to the deployed Worker URL, or http://localhost:8787
+  // when running it locally via `wrangler dev`. Empty = same origin.
+  const apiBase = process.env.REACT_APP_API_BASE || '';
+  const apiActivityBase = `${apiBase}/api/v1/rovers/perseverance/activity`;
 
   // Fetches all photos by given Earth date
   const getPhotosByDate = async (date) => {
@@ -116,16 +129,41 @@ function App() {
     getPhotosBySol(solPicked);
   }, [solPicked]);
 
-  //Get all earth dates from manifest that had photos to use for datepicker
+  // Fetch which days have photos for the month containing `monthMoment`, from
+  // the activity endpoint. Results are cached per month so navigation is cheap.
+  const fetchActivityForMonth = async (monthMoment) => {
+    const m = moment(monthMoment);
+    if (!m.isValid()) return;
+    const key = m.format('YYYY-MM');
+    if (loadedMonths.current.has(key)) return;
+    loadedMonths.current.add(key);
+
+    const from = m.clone().startOf('month').format('YYYY-MM-DD');
+    const to = m.clone().endOf('month').format('YYYY-MM-DD');
+    setCalendarLoading(true);
+    try {
+      const data = await (
+        await fetch(`${apiActivityBase}?from=${from}&to=${to}`)
+      ).json();
+      setActiveDates((prev) => {
+        const next = new Set(prev);
+        (data.activity || []).forEach((a) => next.add(a.earth_date));
+        return next;
+      });
+    } catch (e) {
+      // On failure, forget the month so it can be retried, and don't block it.
+      loadedMonths.current.delete(key);
+      console.error('Failed to load activity for', key, e);
+    } finally {
+      setCalendarLoading(false);
+    }
+  };
+
+  // Prefetch the selected date's month so the calendar opens with the right days
+  // enabled (covers initial load, since the view follows the picked date).
   useEffect(() => {
-    if (isManifestLoaded.current === true) {
-      setManifestDates(
-        Object.values(manifestData.photos).map((item) => {
-          return item.earth_date;
-        })
-      );
-    } else console.log('manifest loaded: ' + isManifestLoaded.current);
-  }, [manifestData]);
+    if (datePicked) fetchActivityForMonth(moment(datePicked));
+  }, [datePicked]);
 
   //Load 25 images at a time
   const [imagesPerPage, setImagesPerPage] = useState(0);
@@ -163,10 +201,14 @@ function App() {
     return () => window.removeEventListener('scroll', calcLoadMore);
   };
 
-  //The MUI Datepicker takes function that retures true or false to disable any dates
-  //If it's not in the manifestDates, return true to disable it
-  const getDisabledDates = (date) => {
-    return !manifestDates.includes(date.toISOString().split('T')[0]);
+  // The MUI DatePicker disables a day when this returns true. Until a month's
+  // activity has loaded we don't disable anything (the `loading` state masks it);
+  // once loaded, disable any day with no photos. Using moment.format avoids the
+  // UTC off-by-one that toISOString() caused.
+  const shouldDisableDate = (date) => {
+    const monthKey = moment(date).format('YYYY-MM');
+    if (!loadedMonths.current.has(monthKey)) return false;
+    return !activeDates.has(moment(date).format('YYYY-MM-DD'));
   };
 
   return (
@@ -232,9 +274,19 @@ function App() {
                 onChange={(newDate) => {
                   setDatePicked(moment(newDate).format('YYYY-MM-DD'));
                 }}
+                onOpen={() =>
+                  fetchActivityForMonth(
+                    fetchedPhotos.length
+                      ? moment(fetchedPhotos[0].earth_date)
+                      : moment(datePicked)
+                  )
+                }
+                onMonthChange={(month) => fetchActivityForMonth(month)}
+                loading={calendarLoading}
+                renderLoading={() => <CalendarPickerSkeleton />}
                 renderInput={(params) => <TextField {...params} />}
                 disableFuture={true}
-                shouldDisableDate={getDisabledDates}
+                shouldDisableDate={shouldDisableDate}
               />
             </LocalizationProvider>
           </Grid>
