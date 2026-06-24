@@ -57,7 +57,7 @@ function App() {
   // functions); set REACT_APP_API_BASE to the deployed Worker URL, or
   // http://localhost:8787 when running the API locally via `wrangler dev`, to
   // serve every endpoint from the standalone API.
-  const apiBase = process.env.REACT_APP_API_BASE || '';
+  const apiBase = import.meta.env.REACT_APP_API_BASE || '';
 
   const apiManifestUrl = `${apiBase}/api/v1/manifests/perseverance`;
   const apiDateBase = `${apiBase}/api/v1/rovers/perseverance/photos?earth_date=`;
