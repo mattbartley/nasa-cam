@@ -166,12 +166,7 @@ export default function ImageModal({
               <p className="detail__text">
                 <span className="description__title">Direct Link: </span>
                 <a
-                  href={`${
-                    selectedImage.img_src.substring(
-                      0,
-                      selectedImage.img_src.length - 9
-                    ) + '.png'
-                  }`}
+                  href={selectedImage.img_src}
                   target="_blank"
                   rel="noreferrer"
                 >
