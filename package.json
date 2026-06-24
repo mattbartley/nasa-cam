@@ -32,6 +32,20 @@
     "ts-node": "^10.9.0",
     "ws": "^8.14.0"
   },
+  "overrides": {
+    "nth-check": "^2.1.1",
+    "postcss": "^8.4.31",
+    "serialize-javascript": "^7.0.6",
+    "css-select": "^5.1.0",
+    "@tootallnate/once": "^2.0.1",
+    "undici": "^8.5.0",
+    "tar": "^7.5.16",
+    "uuid": "^11.1.0",
+    "@vercel/node": {
+      "esbuild": "^0.25.0",
+      "path-to-regexp": "^6.3.0"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "prisma generate && react-scripts build",
