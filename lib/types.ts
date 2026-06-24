@@ -23,24 +23,27 @@ export interface PhotosAPIResponse {
   photos: PhotoResponse[];
 }
 
-export interface ManifestPhoto {
-  sol: number;
-  earth_date: string;
-  total_photos: number;
-  cameras: string[];
-}
-
 export interface PhotoManifest {
   name: string;
   landing_date: string;
   max_date: string;
   max_sol: number;
   total_photos: number;
-  photos: ManifestPhoto[];
 }
 
 export interface ManifestAPIResponse {
   photo_manifest: PhotoManifest;
+}
+
+// Per-day photo activity for a date range, used by the DatePicker to enable
+// only the days that actually have photos.
+export interface ActivityDay {
+  earth_date: string;
+  total_photos: number;
+}
+
+export interface ActivityAPIResponse {
+  activity: ActivityDay[];
 }
 
 // NASA RSS Feed Types
