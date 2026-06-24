@@ -1,0 +1,46 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model Camera {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  fullName String
+  photos   Photo[]
+}
+
+model Photo {
+  id        Int      @id @default(autoincrement())
+  imgSrc    String   @unique
+  sol       Int
+  earthDate DateTime
+  cameraId  Int
+  camera    Camera   @relation(fields: [cameraId], references: [id])
+
+  @@index([sol])
+  @@index([earthDate])
+  @@index([cameraId])
+}
+
+/// Written by the private nasa-cam-ingest repo, not this app. Kept here only so
+/// `prisma db push` from this repo does not drop the table. Do not remove.
+model ScrapeProgress {
+  sol          Int       @id
+  status       String    @default("pending")
+  photoCount   Int       @default(0)
+  imagesPulled Int       @default(0)
+  worker       String?
+  attempts     Int       @default(0)
+  lastError    String?
+  fetchedAt    DateTime?
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status])
+}
