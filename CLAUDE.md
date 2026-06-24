@@ -14,9 +14,9 @@ repo only reads from that database — it does not scrape.
 ## Development Commands
 
 ### Frontend
-- `npm start` - Start React dev server only (no API)
-- `npm run build` - Create production build
-- `npm test` - Run test suite (Jest)
+- `npm run dev` (or `npm start`) - Start the Vite dev server (frontend only, no API)
+- `npm run build` - Create production build (`build/`)
+- `npm run preview` - Serve the production build locally
 
 ### Full Stack (Frontend + API)
 - `vercel dev` - Run full stack locally (recommended for development)
@@ -28,7 +28,7 @@ repo only reads from that database — it does not scrape.
 ## Architecture
 
 ### Frontend (src/)
-React app with state managed in `src/App.js`:
+React app with state managed in `src/App.jsx`:
 - `manifestData` - Mission data from API
 - `fetchedPhotos` / `filteredPhotos` - Photos before and after camera filtering
 - `datePicked` / `solPicked` - User-selected date or sol
@@ -37,9 +37,10 @@ React app with state managed in `src/App.js`:
 
 ### Backend API (api/)
 Vercel serverless functions (read-only):
-- `GET /api/v1/manifests/perseverance` - Mission manifest with photo stats per sol
+- `GET /api/v1/manifests/perseverance` - Mission stats (total photos, latest sol/date)
 - `GET /api/v1/rovers/perseverance/photos?sol=N` - Photos by sol
 - `GET /api/v1/rovers/perseverance/photos?earth_date=YYYY-MM-DD` - Photos by date
+- `GET /api/v1/rovers/perseverance/activity?from=YYYY-MM-DD&to=YYYY-MM-DD` - Days with photos in a range (drives the DatePicker, fetched one month at a time)
 
 ### Database (prisma/)
 PostgreSQL (Neon) with Prisma ORM:
@@ -56,7 +57,7 @@ of this repo. If you need to add/refresh data, work there.
 
 ## Component Structure
 ```
-App.js (state manager)
+App.jsx (state manager)
 ├── HomeScreen (Nav + Banner)
 ├── Stats (mission statistics)
 ├── DatePicker / SolPicker (filter controls)
@@ -71,7 +72,7 @@ App.js (state manager)
 - **Frontend**: React 18, Material-UI 5, Framer Motion, Moment.js
 - **Backend**: Vercel serverless functions, Prisma ORM
 - **Database**: PostgreSQL (Neon serverless)
-- **Build**: Create React App (react-scripts 5)
+- **Build**: Vite 7 (`@vitejs/plugin-react`)
 
 ## Setup
 
