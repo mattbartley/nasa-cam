@@ -13,10 +13,6 @@ export default function PhotoGallery({
   //Get image dimensions from source
   const [imageSize, setImageSize] = useState();
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [originalIndex, setOriginalIndex] = useState();
-  const getOriginalIndex = (image) => {
-    setOriginalIndex(fetchedPhotos.map((ind) => ind.id).indexOf(image.id));
-  };
 
   const getImageSize = (url) => {
     let img = new Image();
@@ -30,7 +26,6 @@ export default function PhotoGallery({
     setSelectedImage(image);
     setCurrentIndex(index);
     getImageSize(image.img_src);
-    getOriginalIndex(image);
   };
 
   const totalImages = fetchedPhotos.length;
