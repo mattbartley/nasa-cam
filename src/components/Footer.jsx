@@ -1,5 +1,9 @@
 import React from 'react';
 import '../css/Footer.css';
+import githubLogo from '../assets/images/github-logo.png';
+import mattPhoto from '../assets/images/matt.png';
+import nasaLogo from '../assets/images/nasa-logo.png';
+import perseveranceLogo from '../assets/images/nasa-perseverance-logo.png';
 
 export default function Footer() {
   const githubLink = 'https://github.com/mattbartley/nasa-cam';
@@ -13,7 +17,7 @@ export default function Footer() {
         <div className="footer__item">
           <a href={githubLink} target="_blank" rel="noreferrer">
             <img
-              src={require('../assets/images/github-logo.png')}
+              src={githubLogo}
               alt="github logo"
             />
           </a>
@@ -27,7 +31,7 @@ export default function Footer() {
         <div className="footer__item">
           <a href={personalLink} target="_blank" rel="noreferrer">
             <img
-              src={require('../assets/images/matt.png')}
+              src={mattPhoto}
               alt="matt bartley profile"
             />
           </a>
@@ -41,7 +45,7 @@ export default function Footer() {
         <div className="footer__item">
           <a href={nasaLink} target="_blank" rel="noreferrer">
             <img
-              src={require('../assets/images/nasa-logo.png')}
+              src={nasaLogo}
               alt="nasa logo"
             />
           </a>
@@ -55,7 +59,7 @@ export default function Footer() {
         <div className="footer__item">
           <a href={perseveranceLink} target="_blank" rel="noreferrer">
             <img
-              src={require('../assets/images/nasa-perseverance-logo.png')}
+              src={perseveranceLogo}
               alt="perseverance mission logo"
             />
           </a>
