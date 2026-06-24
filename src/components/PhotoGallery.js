@@ -13,14 +13,11 @@ export default function PhotoGallery({
   //Get image dimensions from source
   const [imageSize, setImageSize] = useState();
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [originalIndex, setOriginalIndex] = useState();
-  const getOriginalIndex = (image) => {
-    setOriginalIndex(fetchedPhotos.map((ind) => ind.id).indexOf(image.id));
-  };
 
   const getImageSize = (url) => {
     let img = new Image();
-    img.src = url.substring(0, url.length - 9).concat('.png');
+    // img_src is already the full-res image; load it directly for dimensions.
+    img.src = url;
     img.onload = () => {
       setImageSize([img.width, img.height]);
     };
@@ -30,7 +27,6 @@ export default function PhotoGallery({
     setSelectedImage(image);
     setCurrentIndex(index);
     getImageSize(image.img_src);
-    getOriginalIndex(image);
   };
 
   const totalImages = fetchedPhotos.length;
@@ -45,7 +41,9 @@ export default function PhotoGallery({
             const largeExt = '_1200.jpg';
 
             let imgSrc = image.img_src;
-            let imgSrcBase = imgSrc.substring(0, imgSrc.length - 9);
+            // NASA serves JPEG browse sizes next to the full-res image: strip
+            // the extension and append the size suffix (e.g. ..._800.jpg).
+            let imgSrcBase = imgSrc.replace(/\.\w+$/, '');
 
             let smallSrc = imgSrcBase + smallExt;
             let mediumSrc = imgSrcBase + mediumExt;
