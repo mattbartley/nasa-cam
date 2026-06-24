@@ -7,24 +7,24 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Bind all interfaces (0.0.0.0 / ::) so the dev server is reachable over the
-    // VPS IP and Tailscale, not just localhost.
-    host: true,
+    // Bind to the Tailscale IP only, so the dev server stays on the tailnet and
+    // is NOT exposed on the VPS public interface. Override with VITE_DEV_HOST
+    // (e.g. `localhost` or `true`) when running on another machine.
+    host: process.env.VITE_DEV_HOST || '100.115.160.86',
     port: 3000,
     // Vite blocks requests whose Host header isn't allowed (DNS-rebinding
-    // protection). Plain IP access is permitted by default, but Tailscale
-    // MagicDNS hostnames (*.ts.net) are not — without this they return
-    // "Blocked request. This host is not allowed." `true` accepts any Host;
-    // tighten to e.g. ['.ts.net'] to restrict it to the tailnet.
-    allowedHosts: true,
+    // protection). Restrict to Tailscale MagicDNS names (*.ts.net); direct IP
+    // access is permitted by default. Without this, *.ts.net hostnames return
+    // "Blocked request. This host is not allowed."
+    allowedHosts: ['.ts.net'],
     // HMR over direct remote access works against the same host/port the page
     // was loaded from, so no extra hmr config is needed for IP/tailnet use.
   },
-  // Same remote-access settings for `vite preview` (serving the built app).
+  // Same tailnet-only settings for `vite preview` (serving the built app).
   preview: {
-    host: true,
+    host: process.env.VITE_DEV_HOST || '100.115.160.86',
     port: 4173,
-    allowedHosts: true,
+    allowedHosts: ['.ts.net'],
   },
   build: { outDir: 'build' },
   envPrefix: ['VITE_', 'REACT_APP_'],
