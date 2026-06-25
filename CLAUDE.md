@@ -112,3 +112,17 @@ Deployed on Vercel with:
 
 Data ingestion (and any scheduled scraping) runs out of the private
 `nasa-cam-ingest` repo, not this deployment.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in GitHub Issues (`mattbartley/nasa-cam`) via the `gh` CLI; external PRs are not a triage surface. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default canonical label vocabulary — `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
